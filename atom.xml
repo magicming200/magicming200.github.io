@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>迈萌安全博客</title>
+  
+  <subtitle>web安全/区块链安全</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://magicming.cc/"/>
+  <updated>2019-04-10T14:00:33.479Z</updated>
+  <id>https://magicming.cc/</id>
+  
+  <author>
+    <name>迈萌</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>区块链1</title>
+    <link href="https://magicming.cc/2019/03/qukuai1/"/>
+    <id>https://magicming.cc/2019/03/qukuai1/</id>
+    <published>2019-03-30T04:37:46.000Z</published>
+    <updated>2019-04-10T14:00:33.479Z</updated>
+    
+    <content type="html"><![CDATA[<p>asdad</p><h1 id="二二"><a href="#二二" class="headerlink" title="二二"></a>二二</h1><p>速度速度</p><p>说的我</p><h2 id="的是非得失"><a href="#的是非得失" class="headerlink" title="的是非得失"></a>的是非得失</h2><p>短发的</p><p>###速度速度</p><p>说的方式分</p><p><code>sds</code></p><p>ss搜索</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;asdad&lt;/p&gt;
+&lt;h1 id=&quot;二二&quot;&gt;&lt;a href=&quot;#二二&quot; class=&quot;headerlink&quot; title=&quot;二二&quot;&gt;&lt;/a&gt;二二&lt;/h1&gt;&lt;p&gt;速度速度&lt;/p&gt;
+&lt;p&gt;说的我&lt;/p&gt;
+&lt;h2 id=&quot;的是非得失&quot;&gt;&lt;a href=&quot;#的是非得失&quot; class
+      
+    
+    </summary>
+    
+      <category term="区块链安全" scheme="https://magicming.cc/categories/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="blockchain" scheme="https://magicming.cc/tags/blockchain/"/>
+    
+      <category term="injec" scheme="https://magicming.cc/tags/injec/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>xss新姿势</title>
+    <link href="https://magicming.cc/2019/03/xss/"/>
+    <id>https://magicming.cc/2019/03/xss/</id>
+    <published>2019-03-30T04:37:46.000Z</published>
+    <updated>2019-04-10T05:23:17.608Z</updated>
+    
+    <content type="html"><![CDATA[<p>asdad</p><h1 id="二二"><a href="#二二" class="headerlink" title="二二"></a>二二</h1><p>速度速度</p><p>说的我</p><h2 id="的是非得失"><a href="#的是非得失" class="headerlink" title="的是非得失"></a>的是非得失</h2><p>短发的</p><p>###速度速度</p><p>说的方式分</p><p><code>sds</code></p><p>ss搜索</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;asdad&lt;/p&gt;
+&lt;h1 id=&quot;二二&quot;&gt;&lt;a href=&quot;#二二&quot; class=&quot;headerlink&quot; title=&quot;二二&quot;&gt;&lt;/a&gt;二二&lt;/h1&gt;&lt;p&gt;速度速度&lt;/p&gt;
+&lt;p&gt;说的我&lt;/p&gt;
+&lt;h2 id=&quot;的是非得失&quot;&gt;&lt;a href=&quot;#的是非得失&quot; class
+      
+    
+    </summary>
+    
+      <category term="web安全" scheme="https://magicming.cc/categories/web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="xss" scheme="https://magicming.cc/tags/xss/"/>
+    
+      <category term="chrome" scheme="https://magicming.cc/tags/chrome/"/>
+    
+  </entry>
+  
+</feed>

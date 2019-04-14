@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://magicming.cc/"/>
-  <updated>2019-04-13T14:10:05.649Z</updated>
+  <updated>2019-04-14T12:46:58.632Z</updated>
   <id>https://magicming.cc/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>一次小小的实战：利用html实体转义特性XSS</title>
+    <link href="https://magicming.cc/2019/04/xss-html-entity/"/>
+    <id>https://magicming.cc/2019/04/xss-html-entity/</id>
+    <published>2019-04-14T11:23:34.000Z</published>
+    <updated>2019-04-14T12:46:58.632Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p><h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><p>于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：</p><p><img src="/2019/04/xss-html-entity/search.jpg" alt="p"></p><p>右键查看源码：<br><img src="/2019/04/xss-html-entity/yuanma1.jpg" alt="p"></p><p>我们先试试在后面加上<code>&quot;&gt;&lt;script&gt;&lt;/script&gt;</code>，会不会过滤:<br><img src="/2019/04/xss-html-entity/waf1.jpg" alt="p"></p><p>经过一一确认，发现系统遇到<code>&lt;script&gt;</code>标签就会被干掉。。。</p><p>再试试第二种方法，<code>19276&quot; onclick=&quot;alert()&quot;&gt;</code>，看看结果：<br><img src="/2019/04/xss-html-entity/waf2.jpg" alt="p"><br>悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件<code>19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;</code>，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下：<br><img src="/2019/04/xss-html-entity/waf3.jpg" alt="p"></p><p>下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明：</p><blockquote><p>onwheel：该事件在鼠标滚轮在元素上下滚动时触发。</p></blockquote><p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p><p>喜出望外啊，赶紧弹个窗先：</p><p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，我们要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure><p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典
+      
+    
+    </summary>
+    
+      <category term="web安全" scheme="https://magicming.cc/categories/web%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="xss" scheme="https://magicming.cc/categories/web%E5%AE%89%E5%85%A8/xss/"/>
+    
+    
+      <category term="xss" scheme="https://magicming.cc/tags/xss/"/>
+    
+  </entry>
   
   <entry>
     <title>mac下删除文件无法移入废纸篓的解决办法</title>

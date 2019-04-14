@@ -96,17 +96,27 @@
 
 
 
-  <meta name="description" content="web安全/区块链安全">
-<meta name="keywords" content="迈萌">
-<meta property="og:type" content="website">
-<meta property="og:title" content="迈萌安全博客">
-<meta property="og:url" content="https://magicming.cc/tags/Mac/index.html">
+  <meta name="description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
+<meta name="keywords" content="xss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次小小的实战：利用html实体转义特性XSS">
+<meta property="og:url" content="https://magicming.cc/2019/04/xss-html-entity/index.html">
 <meta property="og:site_name" content="迈萌安全博客">
-<meta property="og:description" content="web安全/区块链安全">
+<meta property="og:description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/yuanma1.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf1.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf2.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf3.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/onwheel.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf4.jpg">
+<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/ok.jpg">
+<meta property="og:updated_time" content="2019-04-14T12:46:58.632Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="迈萌安全博客">
-<meta name="twitter:description" content="web安全/区块链安全">
+<meta name="twitter:title" content="一次小小的实战：利用html实体转义特性XSS">
+<meta name="twitter:description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
+<meta name="twitter:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
 
 
 
@@ -116,7 +126,7 @@
 
   
   
-  <link rel="canonical" href="https://magicming.cc/tags/Mac/">
+  <link rel="canonical" href="https://magicming.cc/2019/04/xss-html-entity/">
 
 
 
@@ -126,7 +136,7 @@
   };
 </script>
 
-  <title>标签: Mac | 迈萌安全博客</title>
+  <title>一次小小的实战：利用html实体转义特性XSS | 迈萌安全博客</title>
   
 
 
@@ -184,7 +194,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -311,7 +321,7 @@
         
         
           
-          <li class="menu-item menu-item-标签 menu-item-active">
+          <li class="menu-item menu-item-标签">
 
     
     
@@ -399,89 +409,239 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Mac<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://magicming.cc/2019/04/xss-html-entity/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="迈萌">
+      <meta itemprop="description" content="web安全/区块链安全">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="迈萌安全博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/04/mac-trash/" itemprop="url">
-            
-              <span itemprop="name">mac下删除文件无法移入废纸篓的解决办法</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">一次小小的实战：利用html实体转义特性XSS
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-12T09:16:01+08:00" content="2019-04-12">
-          04-12
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-14 19:23:34" itemprop="dateCreated datePublished" datetime="2019-04-14T19:23:34+08:00">2019-04-14</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web安全/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web安全/xss/" itemprop="url" rel="index"><span itemprop="name">xss</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><p>于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：</p>
+<p><img src="/2019/04/xss-html-entity/search.jpg" alt="p"></p>
+<p>右键查看源码：<br><img src="/2019/04/xss-html-entity/yuanma1.jpg" alt="p"></p>
+<p>我们先试试在后面加上<code>&quot;&gt;&lt;script&gt;&lt;/script&gt;</code>，会不会过滤:<br><img src="/2019/04/xss-html-entity/waf1.jpg" alt="p"></p>
+<p>经过一一确认，发现系统遇到<code>&lt;script&gt;</code>标签就会被干掉。。。</p>
+<p>再试试第二种方法，<code>19276&quot; onclick=&quot;alert()&quot;&gt;</code>，看看结果：<br><img src="/2019/04/xss-html-entity/waf2.jpg" alt="p"><br>悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件<code>19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;</code>，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下：<br><img src="/2019/04/xss-html-entity/waf3.jpg" alt="p"></p>
+<p>下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明：</p>
+<blockquote>
+<p>onwheel：该事件在鼠标滚轮在元素上下滚动时触发。</p>
+</blockquote>
+<p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p>
+<p>喜出望外啊，赶紧弹个窗先：</p>
+<p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p>
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，我们要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>迈萌</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://magicming.cc/2019/04/xss-html-entity/" title="一次小小的实战：利用html实体转义特性XSS">https://magicming.cc/2019/04/xss-html-entity/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客文章采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议，转载请注明出处，谢谢：）</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/xss/" rel="tag"># xss</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/mac-trash/" rel="next" title="mac下删除文件无法移入废纸篓的解决办法">
+                <i class="fa fa-chevron-left"></i> mac下删除文件无法移入废纸篓的解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -501,8 +661,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -622,6 +791,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实战"><span class="nav-number">2.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">2.1.</span> <span class="nav-text">关键点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -749,6 +935,10 @@
 
 
   
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
 
   
 
@@ -764,6 +954,8 @@
 
   
 
+
+  
 
 
   

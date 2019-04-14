@@ -1,50 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[一次小小的实战：利用html实体转义特性XSS]]></title>
-    <url>%2F2019%2F04%2Fxss-html-entity%2F</url>
-    <content type="text"><![CDATA[背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X： 右键查看源码： 我们先试试在后面加上&quot;&gt;&lt;script&gt;&lt;/script&gt;，会不会过滤: 经过一一确认，发现系统遇到&lt;script&gt;标签就会被干掉。。。 再试试第二种方法，19276&quot; onclick=&quot;alert()&quot;&gt;，看看结果：悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下： 下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明： onwheel：该事件在鼠标滚轮在元素上下滚动时触发。 onwheel没过滤，如下： 喜出望外啊，赶紧弹个窗先： 关键点我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。a的十六进制是61，实体编码就是&amp;#x61;。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，&amp;#x61;中恰好有&amp;，为了避免干扰，我们要继续对&amp;#x61;进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，&amp;#x61;url编码后为%26%23x61%3B。最终构造的payload如下： 1k=19276"+onwheel="%26%23x61%3Blert(/xss/)"&gt; 我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>一次小小的实战：利用html实体转义特性XSS</title>
+      <link href="/2019/04/xss-html-entity/"/>
+      <url>/2019/04/xss-html-entity/</url>
+      
+        <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p><h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><p>于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：</p><p><img src="/2019/04/xss-html-entity/search.jpg" alt="p"></p><p>右键查看源码：<br><img src="/2019/04/xss-html-entity/yuanma1.jpg" alt="p"></p><p>我们先试试在后面加上<code>&quot;&gt;&lt;script&gt;&lt;/script&gt;</code>，会不会过滤:<br><img src="/2019/04/xss-html-entity/waf1.jpg" alt="p"></p><p>经过一一确认，发现系统遇到<code>&lt;script&gt;</code>标签就会被干掉。。。</p><p>再试试第二种方法，<code>19276&quot; onclick=&quot;alert()&quot;&gt;</code>，看看结果：<br><img src="/2019/04/xss-html-entity/waf2.jpg" alt="p"><br>悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件<code>19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;</code>，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下：<br><img src="/2019/04/xss-html-entity/waf3.jpg" alt="p"></p><p>下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明：</p><blockquote><p>onwheel：该事件在鼠标滚轮在元素上下滚动时触发。</p></blockquote><p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p><p>喜出望外啊，赶紧弹个窗先：</p><p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，我们要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure><p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>]]></content>
+      
+      
       <categories>
-        <category>web安全</category>
-        <category>xss</category>
+          
+          <category> web安全 </category>
+          
+          <category> xss </category>
+          
       </categories>
-      <tags>
-        <tag>xss</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mac下删除文件无法移入废纸篓的解决办法]]></title>
-    <url>%2F2019%2F04%2Fmac-trash%2F</url>
-    <content type="text"><![CDATA[有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： cd ～ rm .Trash 注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹 搞定。]]></content>
+      
+      
+        <tags>
+            
+            <tag> xss </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>mac下删除文件无法移入废纸篓的解决办法</title>
+      <link href="/2019/04/mac-trash/"/>
+      <url>/2019/04/mac-trash/</url>
+      
+        <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><ol><li><p>cd ～</p></li><li><p>rm .Trash</p></li><li><p>注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹</p></li></ol><p>搞定。</p>]]></content>
+      
+      
       <categories>
-        <category>杂项</category>
+          
+          <category> 杂项 </category>
+          
       </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[区块链域名解析服务emerdns学习笔记]]></title>
-    <url>%2F2019%2F04%2Femerdns%2F</url>
-    <content type="text"><![CDATA[前段时间看360netlab的一篇文章基于区块链DNS的Fbot蠕虫，文中提到的Fbot蠕虫，其C2用到了区块链域名解析服务emerDNS，觉得挺有意思，一直念念不忘，最近抽出空来，初步学习下。 emerCoin简介emerCoin是一个区块链项目，提供多个分布式服务，比如分布式域名解析emerDNS、分布式密钥管理emerSSH、分布式证书管理emerSSL等。要使用emerDNS，首先要有钱包，还要充一点币，下面具体介绍。 安装emerCoin钱包首先到官网下载emerCoin钱包，下载地址点这里。下载钱包后，按照提示安装，第一次打开需要同步区块数据，数据量不大，大概几十分钟就可同步完毕，我这里安装的是mac版，最终打开后的界面是这样： 然后你需要为自己充一些emerCoin币，可以从以下交易所充值：我选的是hitbtc交易所，购买emerCoin币后，将其提现到自己的钱包，具体流程和转账比特币类似，具体不细说了。现在我们的钱包有了一些emerCoin币，点击钱包的Manage Names栏目，我们能看到DNS设置按钮，如下： 在具体设置之前，我们先看下emerDNS介绍。 emerDNS简介什么是emerDNS？简单说就是把域名解析过程放在区块链上进行。有啥好处呢？按照官方的说法是这样： 你是否担心自己的网站某一天被关停？随着全球管控力度的加强，这种担心不无道理。EmerDNS可免除这一烦恼。EmerDNS完全去中心化，不受任何管控影响。没有人可以修改你的记录，只有记录创建者才能操作记录内容。在多个浏览器扩展的帮助下，通过OpenNIC服务器或代理可轻松解析EmerDNS网站。 EmerDNS是一个去中心化的域名系统，支持各种DNS记录。EmerDNS在Emercoin NVS中的服务缩写”dns”下运行。 上面提到的NVS是什么？全称是Name Value System，就是一个键值对数据库，写过代码的肯定都知道。到这你可能猜出来了，name里存储域名，value里存储解析记录。我们看下一个典型的emerDNS记录格式。先打开emercoin NVS区块浏览器，地址如下：https://explorer.emercoin.com/nvs type框里输入dns，点击搜索，典型的dns记录格式如下： 我们再回来看看钱包里怎么设置dns，点击dns按钮，弹出子窗口，填写dns name和对应记录即可，这里我添加的A记录94.23.252.190是namecoin官网的地址，如下： 点击OK，回到主界面，我们能看到键值操作有NAME_NEW、NAME_UPDATE、NAME_DELETE三种，这里我们是新增一条A记录，选默认的NAME_NEW即可，点击submit，就会把记录提交到区块链网络中，需要一段时间同步，耐心等会，如下： 我们在回到nvs浏览器看下，果然，有记录了，如下：下面我们看看解析emerdns有哪些方式。 解析emerDNS的五种方式使用OpenNIC DNS使用openNIC DNS服务，这应该是最方便的方式了，把本机DNS设成openNIC的dns地址，即可访问各种非标准域名。迈萌我整理了下，openNIC支持解析的非标准域名有.bit、.coin、.lib、.emc等。 openNIC 所有dns 地址见servers.opennic.org，从中抽取一个，设置本机dns为176.126.70.119，然后用浏览器访问我们前面设置的emerDNS域名magicming.lib，果然跳转到namecoin的官网，为优秀的自己点个赞，如下： 使用dig命令也可以用下面命令dig一下，通过应答的A记录能看出确实是前面设置的ip， 1dig @176.126.70.119 magicking.lib 应答如下： 使用浏览器插件访问peername，下载对应浏览器插件，我下载的是chrome版，安装后浏览器右上角多了一个地球图标，注意该插件和代理类插件冲突，顺利话就可以访问http://magicming.lib 了，如下： 使用钱包内置的控制台进入emerCoin钱包，打开 菜单—&gt; 帮助—&gt; 调试窗口—&gt; 控制台，输入help可查看所有命令，dns相关命令如下：1234name_show [name] [valuetype] [filepath]name_new &lt;name&gt; &lt;value&gt; &lt;days&gt; [toaddress] [valuetype]name_update &lt;name&gt; &lt;value&gt; &lt;days&gt; [toaddress] [valuetype]name_delete &lt;name&gt; 这里我们使用name_show命令查看magicming.lib的dns解析记录，命令如下：1name_show dns:magicming.lib 返回记录如下，我们成功读取了A记录： 使用emercoin命令行emerCoin官网提供了emercoin 命令行，支持ubuntu、debian、centos，下载地址点这里。迈萌我这里以ubuntu16为例，安装步骤如下： 123$ apt-key adv --keyserver keyserver.ubuntu.com --recv B58C58F4$ add-apt-repository 'deb http://download.emercoin.com/ubuntu xenial emercoin'$ apt update &amp;&amp; apt -y install emercoin 安装完毕后首先启动对应服务，命令如下：1service emercoind start 然后服务在后台开始自动同步区块，同步期间试了下不能读取NVS。同步完成后，执行以下命令即可解析域名： 1emc name_show dns:magicming.lib 病毒爱上emerDNS的理由对比传统域名解析，我们能感受到emerDNS有以下优势： 传统情报库不一定会收录这类非标准域名 emerDNS去中心化，无法通过ICANN成员单位来sinkhole该域名 emerDNS更健壮，更具有所有权 增大安全人员分析难度 可以预测也正在发生，基于区块链的各种技术，会越来越多的用在传统黑产中。 怎样防御emerDNS仅从监测感知层面来说，可以在情报库中加入以下数据，增强感知力： 各种非标准域名后缀 可疑非标准域名对应的ip openNIC DNS列表（用这个NDS的不是极客就是黑产） …… 直接干掉emerDNS，目前没什么好想法。]]></content>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>区块链域名解析服务emerdns学习笔记</title>
+      <link href="/2019/04/emerdns/"/>
+      <url>/2019/04/emerdns/</url>
+      
+        <content type="html"><![CDATA[<p>前段时间看360netlab的一篇文章<a href="https://blog.netlab.360.com/fbot-a-satori-related-block-chain-dns-based-worm/" target="_blank" rel="noopener">基于区块链DNS的Fbot蠕虫</a>，文中提到的Fbot蠕虫，其C2用到了区块链域名解析服务emerDNS，觉得挺有意思，一直念念不忘，最近抽出空来，初步学习下。</p><h1 id="emerCoin简介"><a href="#emerCoin简介" class="headerlink" title="emerCoin简介"></a>emerCoin简介</h1><p>emerCoin是一个区块链项目，提供多个分布式服务，比如分布式域名解析<strong>emerDNS</strong>、分布式密钥管理emerSSH、分布式证书管理emerSSL等。要使用emerDNS，首先要有钱包，还要充一点币，下面具体介绍。</p><h1 id="安装emerCoin钱包"><a href="#安装emerCoin钱包" class="headerlink" title="安装emerCoin钱包"></a>安装emerCoin钱包</h1><p>首先到官网下载emerCoin钱包，下载地址<a href="http://www.emercoin.com/zh/for-coinholders#download" target="_blank" rel="noopener">点这里</a>。下载钱包后，按照提示安装，第一次打开需要同步区块数据，数据量不大，大概几十分钟就可同步完毕，我这里安装的是mac版，最终打开后的界面是这样：</p><p><img src="/2019/04/emerdns/wallet1.jpg" alt="pic"></p><p>然后你需要为自己充一些emerCoin币，可以从以下交易所充值：<br><img src="/2019/04/emerdns/exchange1.jpg" alt="pic"><br>我选的是hitbtc交易所，购买emerCoin币后，将其提现到自己的钱包，具体流程和转账比特币类似，具体不细说了。现在我们的钱包有了一些emerCoin币，点击钱包的Manage Names栏目，我们能看到DNS设置按钮，如下：</p><p><img src="/2019/04/emerdns/wallet-dns.jpg" alt="pic"><br>在具体设置之前，我们先看下emerDNS介绍。</p><h1 id="emerDNS简介"><a href="#emerDNS简介" class="headerlink" title="emerDNS简介"></a>emerDNS简介</h1><p>什么是emerDNS？简单说就是把域名解析过程放在区块链上进行。有啥好处呢？按照官方的说法是这样：</p><blockquote><p>你是否担心自己的网站某一天被关停？随着全球管控力度的加强，这种担心不无道理。EmerDNS可免除这一烦恼。EmerDNS完全去中心化，不受任何管控影响。没有人可以修改你的记录，只有记录创建者才能操作记录内容。在多个浏览器扩展的帮助下，通过OpenNIC服务器或代理可轻松解析EmerDNS网站。</p></blockquote><blockquote><p>EmerDNS是一个去中心化的域名系统，支持各种DNS记录。EmerDNS在Emercoin <strong>NVS</strong>中的服务缩写”dns”下运行。</p></blockquote><p>上面提到的NVS是什么？全称是Name Value System，就是一个键值对数据库，写过代码的肯定都知道。到这你可能猜出来了，name里存储域名，value里存储解析记录。我们看下一个典型的emerDNS记录格式。先打开emercoin NVS区块浏览器，地址如下：<a href="https://explorer.emercoin.com/nvs" target="_blank" rel="noopener">https://explorer.emercoin.com/nvs</a></p><p>type框里输入dns，点击搜索，典型的dns记录格式如下：</p><p><img src="/2019/04/emerdns/search.jpg" alt="pic"></p><p>我们再回来看看钱包里怎么设置dns，点击dns按钮，弹出子窗口，填写dns name和对应记录即可，这里我添加的A记录94.23.252.190是namecoin官网的地址，如下：</p><p><img src="/2019/04/emerdns/dns2.jpg" alt="p"></p><p>点击OK，回到主界面，我们能看到键值操作有NAME_NEW、NAME_UPDATE、NAME_DELETE三种，这里我们是新增一条A记录，选默认的NAME_NEW即可，点击submit，就会把记录提交到区块链网络中，需要一段时间同步，耐心等会，如下：</p><p><img src="/2019/04/emerdns/submit.jpg" alt="p"></p><p>我们在回到nvs浏览器看下，果然，有记录了，如下：<br><img src="/2019/04/emerdns/value.jpg" alt="p"><br>下面我们看看解析emerdns有哪些方式。</p><h1 id="解析emerDNS的五种方式"><a href="#解析emerDNS的五种方式" class="headerlink" title="解析emerDNS的五种方式"></a>解析emerDNS的五种方式</h1><h2 id="使用OpenNIC-DNS"><a href="#使用OpenNIC-DNS" class="headerlink" title="使用OpenNIC DNS"></a>使用OpenNIC DNS</h2><p>使用openNIC DNS服务，这应该是最方便的方式了，把本机DNS设成openNIC的dns地址，即可访问各种非标准域名。<a href="https://magicming.cc">迈萌</a>我整理了下，openNIC支持解析的非标准域名有.bit、.coin、.lib、.emc等。</p><p>openNIC 所有dns 地址见<a href="https://servers.opennic.org" target="_blank" rel="noopener">servers.opennic.org</a>，从中抽取一个，设置本机dns为176.126.70.119，然后用浏览器访问我们前面设置的emerDNS域名<a href="magicming.lib">magicming.lib</a>，果然跳转到namecoin的官网，为优秀的自己点个赞，如下：</p><p><img src="/2019/04/emerdns/lib.jpg" alt="p"></p><h2 id="使用dig命令"><a href="#使用dig命令" class="headerlink" title="使用dig命令"></a>使用dig命令</h2><p>也可以用下面命令dig一下，通过应答的A记录能看出确实是前面设置的ip，</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @176.126.70.119 magicking.lib</span><br></pre></td></tr></table></figure><p>应答如下：</p><p><img src="/2019/04/emerdns/dig.jpg" alt="p"></p><h2 id="使用浏览器插件"><a href="#使用浏览器插件" class="headerlink" title="使用浏览器插件"></a>使用浏览器插件</h2><p>访问<a href="https://peername.com/browser-extension/" target="_blank" rel="noopener">peername</a>，下载对应浏览器插件，我下载的是chrome版，安装后浏览器右上角多了一个地球图标，注意该插件和代理类插件冲突，顺利话就可以访问<a href="http://magicming.lib" target="_blank" rel="noopener">http://magicming.lib</a> 了，如下：<br><img src="/2019/04/emerdns/exten.jpg" alt="p"></p><h2 id="使用钱包内置的控制台"><a href="#使用钱包内置的控制台" class="headerlink" title="使用钱包内置的控制台"></a>使用钱包内置的控制台</h2><p>进入emerCoin钱包，打开 菜单—&gt; 帮助—&gt; 调试窗口—&gt; 控制台，输入help可查看所有命令，dns相关命令如下：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name_show <span class="built_in">[name</span>] [valuetype] [filepath]</span><br><span class="line">name_new <span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">value</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">days</span>&gt;</span> [toaddress] [valuetype]</span></span><br><span class="line"><span class="xml">name_update </span><span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">value</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">days</span>&gt;</span> [toaddress] [valuetype]</span></span><br><span class="line"><span class="xml">name_delete </span><span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p><p>这里我们使用name_show命令查看magicming.lib的dns解析记录，命令如下：<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name_show <span class="symbol">dns:</span>magicming.<span class="keyword">lib</span></span><br></pre></td></tr></table></figure></p><p>返回记录如下，我们成功读取了A记录：<br><img src="/2019/04/emerdns/nameshow.jpg" alt="p"></p><h2 id="使用emercoin命令行"><a href="#使用emercoin命令行" class="headerlink" title="使用emercoin命令行"></a>使用emercoin命令行</h2><p>emerCoin官网提供了emercoin 命令行，支持ubuntu、debian、centos，下载地址<a href="https://emercoin.com/en/documentation/install-software/core-wallets/cli-daemon" target="_blank" rel="noopener">点这里</a>。<br><a href="https://magicming.cc">迈萌</a>我这里以ubuntu16为例，安装步骤如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> apt-key adv --keyserver keyserver.ubuntu.com --recv B58C58F4</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> add-apt-repository <span class="string">'deb http://download.emercoin.com/ubuntu xenial emercoin'</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt update &amp;&amp; apt -y install emercoin</span></span><br></pre></td></tr></table></figure><p>安装完毕后首先启动对应服务，命令如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service emercoind start</span><br></pre></td></tr></table></figure></p><p>然后服务在后台开始自动同步区块，同步期间试了下不能读取NVS。同步完成后，执行以下命令即可解析域名：</p><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emc name_show <span class="symbol">dns:</span>magicming.<span class="keyword">lib</span></span><br></pre></td></tr></table></figure><h1 id="病毒爱上emerDNS的理由"><a href="#病毒爱上emerDNS的理由" class="headerlink" title="病毒爱上emerDNS的理由"></a>病毒爱上emerDNS的理由</h1><p>对比传统域名解析，我们能感受到emerDNS有以下优势：</p><ul><li><p>传统情报库不一定会收录这类非标准域名</p></li><li><p>emerDNS去中心化，无法通过ICANN成员单位来sinkhole该域名</p></li><li><p>emerDNS更健壮，更具有所有权</p></li><li><p>增大安全人员分析难度</p></li></ul><p>可以预测也正在发生，基于区块链的各种技术，会越来越多的用在传统黑产中。</p><h1 id="怎样防御emerDNS"><a href="#怎样防御emerDNS" class="headerlink" title="怎样防御emerDNS"></a>怎样防御emerDNS</h1><p>仅从监测感知层面来说，可以在情报库中加入以下数据，增强感知力：</p><ul><li>各种非标准域名后缀</li><li>可疑非标准域名对应的ip</li><li>openNIC DNS列表（用这个NDS的不是极客就是黑产）</li><li>……</li></ul><p>直接干掉emerDNS，目前没什么好想法。</p>]]></content>
+      
+      
       <categories>
-        <category>区块链安全</category>
+          
+          <category> 区块链安全 </category>
+          
       </categories>
-      <tags>
-        <tag>emerdns</tag>
-        <tag>emercoin</tag>
-        <tag>区块链DNS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[隐私保护工具收集]]></title>
-    <url>%2F2019%2F04%2Fprivacy-tools%2F</url>
-    <content type="text"><![CDATA[本文用于记录一些自己不熟悉的隐私保护工具，抽空研究，不定期更新。 网盘upload.ee anonfiles.com 图床thyrsi.com]]></content>
+      
+      
+        <tags>
+            
+            <tag> emerdns </tag>
+            
+            <tag> emercoin </tag>
+            
+            <tag> 区块链DNS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>隐私保护工具收集</title>
+      <link href="/2019/04/privacy-tools/"/>
+      <url>/2019/04/privacy-tools/</url>
+      
+        <content type="html"><![CDATA[<p>本文用于记录一些自己不熟悉的隐私保护工具，抽空研究，不定期更新。</p><h1 id="网盘"><a href="#网盘" class="headerlink" title="网盘"></a>网盘</h1><p>upload.ee</p><p>anonfiles.com</p><h1 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h1><p>thyrsi.com</p>]]></content>
+      
+      
       <categories>
-        <category>杂项</category>
+          
+          <category> 杂项 </category>
+          
       </categories>
-      <tags>
-        <tag>隐私保护工具</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> 隐私保护工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>

@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
+  <meta name="description" content="背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试试在后面加上">
 <meta name="keywords" content="xss">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次小小的实战：利用html实体转义特性XSS">
 <meta property="og:url" content="https://magicming.cc/2019/04/xss-html-entity/index.html">
 <meta property="og:site_name" content="迈萌安全博客">
-<meta property="og:description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
+<meta property="og:description" content="背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试试在后面加上">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
 <meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/yuanma1.jpg">
@@ -112,10 +112,10 @@
 <meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/onwheel.jpg">
 <meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf4.jpg">
 <meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/ok.jpg">
-<meta property="og:updated_time" content="2019-04-14T12:46:58.632Z">
+<meta property="og:updated_time" content="2019-04-15T12:33:01.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次小小的实战：利用html实体转义特性XSS">
-<meta name="twitter:description" content="背景今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试">
+<meta name="twitter:description" content="背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试试在后面加上">
 <meta name="twitter:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
 
 
@@ -532,7 +532,7 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》第三篇文章时，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p>
 <h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><p>于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：</p>
 <p><img src="/2019/04/xss-html-entity/search.jpg" alt="p"></p>
 <p>右键查看源码：<br><img src="/2019/04/xss-html-entity/yuanma1.jpg" alt="p"></p>
@@ -546,7 +546,7 @@
 <p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p>
 <p>喜出望外啊，赶紧弹个窗先：</p>
 <p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p>
-<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，我们要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p>
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，<a href="https://maimeng.me" target="_blank" rel="noopener">迈萌</a>我要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure>
 <p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>
 

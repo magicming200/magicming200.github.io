@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="迈萌安全博客">
 <meta property="og:description" content="最近在看《那些年我们一起学XSS》，由于每篇文章涉及的关键技巧并不多，在阅读时就想着把关键技巧记录下，以便下次高效查阅。感谢心伤的瘦子，无偿奉献这么好的东西，向你致敬，不知胖了没有。 第一课：什么都没过滤的情况输出点123&amp;lt;HTML 标签&amp;gt;&amp;lt;/HTML 标签&amp;gt;[输出]&amp;lt;HTML 标签&amp;gt;&amp;lt;/HTML 标签&amp;gt; 关键点啥都没过滤，直接x就行：  直接构造&amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-01T08:33:45.199Z">
+<meta property="og:updated_time" content="2019-05-01T08:38:05.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《那些年我们一起学XSS》读书笔记">
 <meta name="twitter:description" content="最近在看《那些年我们一起学XSS》，由于每篇文章涉及的关键技巧并不多，在阅读时就想着把关键技巧记录下，以便下次高效查阅。感谢心伤的瘦子，无偿奉献这么好的东西，向你致敬，不知胖了没有。 第一课：什么都没过滤的情况输出点123&amp;lt;HTML 标签&amp;gt;&amp;lt;/HTML 标签&amp;gt;[输出]&amp;lt;HTML 标签&amp;gt;&amp;lt;/HTML 标签&amp;gt; 关键点啥都没过滤，直接x就行：  直接构造&amp;">
@@ -606,7 +606,8 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"xxx"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><strong>关键点</strong><br>iframe的src属性：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//javascript:</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"javascript:alert(1)"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//vbscript:</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"vbscript:msgbox(1)"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//data协议：</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span> Chrome</span><br></pre></td></tr></table></figure></p>
 <p>iframe的srcdoc属性（IE不支持）：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">srcdoc</span>=<span class="string">"&lt;script&gt;alert(1)&lt;/script&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>防御</strong><br>src属性里，除了过滤jasvascipt关键字，还要过滤vbscript、data等关键字。</p>
+<p>举例：</p>
+<p>获取url里的参数，赋值到iframe的src属性，赋值前只过滤了javascript关键字，这种情况可以用data、vbscript饶过，最终触发xss。<br><strong>防御</strong><br>src属性里，除了过滤jasvascipt关键字，还要过滤vbscript、data等关键字。</p>
 
       
     </div>

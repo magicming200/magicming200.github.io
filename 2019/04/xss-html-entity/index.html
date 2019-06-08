@@ -100,23 +100,23 @@
 <meta name="keywords" content="xss">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次小小的实战：利用html实体转义特性XSS">
-<meta property="og:url" content="https://magicming.cc/2019/04/xss-html-entity/index.html">
+<meta property="og:url" content="https://maimeng.me/2019/04/xss-html-entity/index.html">
 <meta property="og:site_name" content="迈萌安全博客">
 <meta property="og:description" content="背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试试在后面加上">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/yuanma1.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf1.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf2.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf3.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/onwheel.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/waf4.jpg">
-<meta property="og:image" content="https://magicming.cc/2019/04/xss-html-entity/ok.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/search.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/yuanma1.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/waf1.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/waf2.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/waf3.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/onwheel.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/waf4.jpg">
+<meta property="og:image" content="https://maimeng.me/2019/04/xss-html-entity/ok.jpg">
 <meta property="og:updated_time" content="2019-04-15T12:33:01.351Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一次小小的实战：利用html实体转义特性XSS">
 <meta name="twitter:description" content="背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：  右键查看源码： 我们先试试在后面加上">
-<meta name="twitter:image" content="https://magicming.cc/2019/04/xss-html-entity/search.jpg">
+<meta name="twitter:image" content="https://maimeng.me/2019/04/xss-html-entity/search.jpg">
 
 
 
@@ -126,7 +126,7 @@
 
   
   
-  <link rel="canonical" href="https://magicming.cc/2019/04/xss-html-entity/">
+  <link rel="canonical" href="https://maimeng.me/2019/04/xss-html-entity/">
 
 
 
@@ -429,7 +429,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://magicming.cc/2019/04/xss-html-entity/">
+    <link itemprop="mainEntityOfPage" href="https://maimeng.me/2019/04/xss-html-entity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="迈萌">
@@ -583,7 +583,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://magicming.cc/2019/04/xss-html-entity/" title="一次小小的实战：利用html实体转义特性XSS">https://magicming.cc/2019/04/xss-html-entity/</a>
+    <a href="https://maimeng.me/2019/04/xss-html-entity/" title="一次小小的实战：利用html实体转义特性XSS">https://maimeng.me/2019/04/xss-html-entity/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客文章采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议，转载请注明出处，谢谢：）</li>
@@ -748,7 +748,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

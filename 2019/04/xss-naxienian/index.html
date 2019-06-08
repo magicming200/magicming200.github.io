@@ -551,7 +551,7 @@
 <p><strong>防御</strong><br>过滤<code>\&amp;#;</code>。</p>
 <h1 id="第四课：宽字节复仇记"><a href="#第四课：宽字节复仇记" class="headerlink" title="第四课：宽字节复仇记"></a>第四课：宽字节复仇记</h1><p><strong>输出点</strong><br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//请求参数的值传给了js里的某个变量，但对值里的双引号"做了过滤，导致无法闭合双引号</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>关键点</strong><br>页面编码为GB系的前提下，使用<code>%c0</code>闭合双引号。<br>怎样看页面编码：看meta标签 <code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb18030&quot; /&gt;</code><br>GBK编码第一字节（高字节）的范围是0x81～0xFE。<br>GB2312是被GBK兼容的，它的高位范围是0xA1～0xF7。</p>
-<p><a href="https://maimeng.me" target="_blank" rel="noopener">迈萌</a>我举个例子：</p>
+<p><a href="https://maimeng.me">迈萌</a>我举个例子：</p>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//请求参数：</span></span><br><span class="line">gb.php?x=<span class="number">1</span><span class="string">";alert(1)//</span></span><br><span class="line"><span class="string">//直接发送，"</span>被转义：</span><br><span class="line">a=<span class="string">"1<span class="subst">\"</span>;alert(1)//"</span>;</span><br><span class="line"><span class="comment">//调整参数：</span></span><br><span class="line">gb.php?x=<span class="number">1</span>%<span class="number">81</span><span class="string">";alert(1)//</span></span><br><span class="line"><span class="string">//最终结果，成功闭合双引号：</span></span><br><span class="line"><span class="string">a="</span><span class="number">1</span>[%<span class="number">81</span>和\拼接成的新字符]<span class="string">";alert(1)//"</span>;</span><br></pre></td></tr></table></figure>
 <p><strong>防御</strong><br>1、赋值前用js检查数据内容，只允许使用字母数字下划线等，其他字符一律过滤；2、用utf-8编码</p>
 <h1 id="第五课：反斜线复仇记"><a href="#第五课：反斜线复仇记" class="headerlink" title="第五课：反斜线复仇记"></a>第五课：反斜线复仇记</h1><p><strong>输出点</strong></p>
@@ -792,12 +792,6 @@
                     
                   
                     
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     

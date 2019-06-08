@@ -546,7 +546,7 @@
 <p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p>
 <p>喜出望外啊，赶紧弹个窗先：</p>
 <p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p>
-<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，<a href="https://maimeng.me" target="_blank" rel="noopener">迈萌</a>我要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p>
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，<a href="https://maimeng.me">迈萌</a>我要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure>
 <p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>
 
@@ -733,12 +733,6 @@
                     
                   
                     
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     

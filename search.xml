@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Win 平台下静默运行frpc客户端的两种办法]]></title>
+    <url>%2F2019%2F09%2Ffrp%2F</url>
+    <content type="text"><![CDATA[最近在用frp这款内网穿透工具，确实好用，但实际使用中有个小问题，windows平台下，frpc客户端默认打开后是有一个命令行窗口的，像下面这样。这…在真实演习环境中就太尴尬了，唯恐不被管理员发现吗…另外在webshell的非交互式shell中，如果直接执行frpc.exe -c frpc.ini 会出现webshell无响应的情况。有没有后台静默运行frp的方式呢，迈萌我经过一番寻找，总结方法2个。 方法1:使用winsw把frpc当作系统服务启动winsw全称为Windows Service Wrapper，它可以快速把一个可执行的程序注册为Windows的系统服务。使用时，首先要下载winsw，winsw下载地址：https://github.com/kohsuke/winsw/releases下载后有两个可执行文件，WinSW.NET2.exe和WinSW.NET4.exe，WinSW.NET2.exe一般运行在win7、win server2008的系统中，WinSW.NET4.exe一般运行在win10、win server 2012及以后的系统中，大家使用时注意不要选错了，这里我用的是WinSW.NET4.exe。 然后在WinSW.NET4.exe所在目录下新建一个配置文件WinSW.NET4.xml，为了增强迷惑性，迈萌我把名称全部命名为系统服务相关名称，哈哈，内容如下：12345678&lt;service&gt; &lt;id&gt;mnfs&lt;/id&gt; &lt;name&gt;Microsoft .NET Framework Services&lt;/name&gt; &lt;description&gt;Microsoft .NET Framework Services&lt;/description&gt; &lt;executable&gt;frpc&lt;/executable&gt; &lt;arguments&gt;-c frpc.ini&lt;/arguments&gt; &lt;logmode&gt;reset&lt;/logmode&gt;&lt;/service&gt; 然后以管理员权限执行命令：WinSW.NET4.exe install //注册服务WinSW.NET4.exe start //启动服务成功注册并启动服务，如下图： 再看看我们的frps服务端，已经成功接收到连接请求了。 我们再看看目标机器的任务管理器，会发现已经找不到frpc了，是不是隐蔽多了呢。我们再到系统服务中看看是什么样子，发现frp服务已经运行，名字叫Microsoft .NET Framework Services，哈哈，如下：这里winsw路径没改，实战中可以放到windows目录中去，再给winsw改个名，就更隐蔽了。 如果要停止运行，执行：WinSW.NET4.exe stop删除服务，执行：WinSW.NET4.exe uninstall 方法2:使用wscript以脚本方式启动frp**wscript全称“Windows Scripting Host”，是一种批次语言/自动执行工具，可以拿来执行.wsh，.vbs，.js等。这里我们新建一个vbs脚本，脚本内容如下： 12set ws=WScript.CreateObject("WScript.Shell") ws.Run "frpc.exe -c frpc.ini",0 直接在命令行执行 wscript 1.vbs即可，启动后的效果如下： 命令行没有任何回显，打开任务管理器，我们能看到frpc已经成功启动了，如下： 这个方法比较简便，但任务管理器中能看到frpc进程，隐蔽性一般，还是推荐方法1。 本文首发bithack.io。]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>红队</tag>
+        <tag>frp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[读九神《囤比特币》系列文章有感]]></title>
     <url>%2F2019%2F06%2Fsave-bitcoin-ahr999%2F</url>
     <content type="text"><![CDATA[最近读了九神的《囤比特币》系列文章，深有感触，文中的大量精彩思考是他优秀的结果，他的自律、能力、思维方式才是优秀的源头，更值得我们学习。牛逼的人会控制风险，会理性分析，会研究人性，会长期自律，会意志坚定… 退一步说，即使比特币的最终愿景没有实现，九神在比特币上失败了，他仍然到时会在其他行业成功。因为他始终控制风险，持续提升自我，提升场外赚钱能力，没有迷失在浮躁的币圈，他输得起。 文章链接：九神ahr999《囤比特币》系列]]></content>
@@ -8,8 +20,8 @@
         <category>区块链安全</category>
       </categories>
       <tags>
-        <tag>比特币</tag>
         <tag>自律</tag>
+        <tag>比特币</tag>
       </tags>
   </entry>
   <entry>
@@ -20,8 +32,8 @@
         <category>杂项</category>
       </categories>
       <tags>
-        <tag>自律</tag>
         <tag>阅读</tag>
+        <tag>自律</tag>
       </tags>
   </entry>
   <entry>

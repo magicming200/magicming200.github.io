@@ -133,20 +133,19 @@
     <link href="https://maimeng.me/2019/04/mac-trash/"/>
     <id>https://maimeng.me/2019/04/mac-trash/</id>
     <published>2019-04-12T01:16:01.000Z</published>
-    <updated>2019-04-13T14:10:05.649Z</updated>
+    <updated>2020-01-13T01:34:34.803Z</updated>
     
-    <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><ol><li><p>cd ～</p></li><li><p>rm .Trash</p></li><li><p>注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹</p></li></ol><p>搞定。</p>]]></content>
+    <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><p>Mac 10.14以前版本：</p><ol><li>cd ～</li><li>rm .Trash</li><li>注销账户，重新登陆</li></ol><p>Mac10.14：</p><ol><li>rm -R ~/.Trash</li><li>killall Finder</li></ol>]]></content>
     
     <summary type="html">
     
       
       
         &lt;p&gt;有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：&lt;/p&gt;
+&lt;p&gt;Mac 10.14以前版本：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;cd ～&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;rm .Trash&lt;/p&gt;
-&lt;
+&lt;li&gt;cd ～&lt;/li&gt;
+&lt;li&gt;rm .
       
     
     </summary>

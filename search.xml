@@ -51,7 +51,7 @@
   <entry>
     <title><![CDATA[mac下删除文件无法移入废纸篓的解决办法]]></title>
     <url>%2F2019%2F04%2Fmac-trash%2F</url>
-    <content type="text"><![CDATA[有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： cd ～ rm .Trash 注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹 搞定。]]></content>
+    <content type="text"><![CDATA[有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： Mac 10.14以前版本： cd ～ rm .Trash 注销账户，重新登陆 Mac10.14： rm -R ~/.Trash killall Finder]]></content>
       <categories>
         <category>杂项</category>
       </categories>

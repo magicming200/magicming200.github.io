@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：  cd ～  rm .Trash  注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹   搞定。">
+  <meta name="description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： Mac 10.14以前版本：  cd ～ rm .Trash 注销账户，重新登陆  Mac10.14：  rm -R ~/.Trash killall Finder">
 <meta name="keywords" content="Mac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac下删除文件无法移入废纸篓的解决办法">
 <meta property="og:url" content="https://maimeng.me/2019/04/mac-trash/index.html">
 <meta property="og:site_name" content="迈萌安全博客">
-<meta property="og:description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：  cd ～  rm .Trash  注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹   搞定。">
+<meta property="og:description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： Mac 10.14以前版本：  cd ～ rm .Trash 注销账户，重新登陆  Mac10.14：  rm -R ~/.Trash killall Finder">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-13T14:10:05.649Z">
+<meta property="og:updated_time" content="2020-01-13T01:34:34.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下删除文件无法移入废纸篓的解决办法">
-<meta name="twitter:description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：  cd ～  rm .Trash  注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹   搞定。">
+<meta name="twitter:description" content="有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： Mac 10.14以前版本：  cd ～ rm .Trash 注销账户，重新登陆  Mac10.14：  rm -R ~/.Trash killall Finder">
 
 
 
@@ -507,15 +507,17 @@
 
       
         <p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p>
+<p>Mac 10.14以前版本：</p>
 <ol>
-<li><p>cd ～</p>
-</li>
-<li><p>rm .Trash</p>
-</li>
-<li><p>注销账户，重新登陆，会发现～目录下多了一个”废纸篓”文件夹</p>
-</li>
+<li>cd ～</li>
+<li>rm .Trash</li>
+<li>注销账户，重新登陆</li>
 </ol>
-<p>搞定。</p>
+<p>Mac10.14：</p>
+<ol>
+<li>rm -R ~/.Trash</li>
+<li>killall Finder</li>
+</ol>
 
       
     </div>
@@ -710,8 +712,6 @@
                     
                       
                     
-                      
-                    
                     <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
@@ -776,7 +776,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

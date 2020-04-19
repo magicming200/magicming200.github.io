@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://maimeng.me/"/>
-  <updated>2020-01-13T01:54:55.576Z</updated>
+  <updated>2020-04-19T09:02:40.993Z</updated>
   <id>https://maimeng.me/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【原创工具】CVE-2020-10199、CVE-2020-10204漏洞检测工具</title>
+    <link href="https://maimeng.me/2020/04/cve-2020-10199-10204/"/>
+    <id>https://maimeng.me/2020/04/cve-2020-10199-10204/</id>
+    <published>2020-04-19T09:23:34.000Z</published>
+    <updated>2020-04-19T09:02:40.993Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h2><p>抽空用Java写了这个小工具，支持一键检测CVE-2020-10199、CVE-2020-10204漏洞，图形化界面，为确保检测稳定性，payload用到了随机数。（该工具仅限安全从业者在法律法规允许的范围内使用，违规使用后果自负。）</p><h2 id="工具截图"><a href="#工具截图" class="headerlink" title="工具截图"></a>工具截图</h2><p><img src="/2020/04/cve-2020-10199-10204/screenshot-mac.png" alt="screenshot-mac.jpg"><br><img src="/2020/04/cve-2020-10199-10204/screenshot-win.png" alt="screenshot-win.jpg"></p><h2 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h2><ol><li><p>登录进入Nexus后台；</p></li><li><p>获取登录后的cookie及scrf属性；</p></li><li><p>打开本工具，填写nexus地址、cookie值、csrf值，点击检测即可。</p></li></ol><h2 id="工具下载"><a href="#工具下载" class="headerlink" title="工具下载"></a>工具下载</h2><p>下载地址：<a href="https://github.com/magicming200/CVE-2020-10199_CVE-2020-10204" target="_blank" rel="noopener">https://github.com/magicming200/CVE-2020-10199_CVE-2020-10204</a><br>  运行环境：有java环境即可，JRE&gt;=1.6。</p><h2 id="漏洞背景"><a href="#漏洞背景" class="headerlink" title="漏洞背景"></a>漏洞背景</h2><p> Sonatype Nexus 是一个 Maven 的仓库管理系统，它提供了强大的仓库管理、构件搜索等功能，并且可以用来搭建 Maven 仓库私服，在代理远程仓库的同时维护本地仓库，以节省带宽和时间。在 Nexus Repository Manager OSS/Pro 3.21.1 及之前的版本中，经过授权认证的攻击者，可以通过 JavaEL 表达式注入造成远程代码执行，获取系统权限。</p><h2 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h2><p>CVE-2020-10199：Nexus Repository Manager OSS/PRo &lt;=3.21.1，需有低权限账号。<br>CVE-2020-10204：Nexus Repository Manager OSS/PRo &lt;=3.21.1，需有管理员账号。</p><h2 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h2><p> Nexus Repository Manager OSS/Pro升级到最新版。新版下载地址：<br><a href="https://help.sonatype.com/repomanager3/download" target="_blank" rel="noopener">https://help.sonatype.com/repomanager3/download</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;工具介绍&quot;&gt;&lt;a href=&quot;#工具介绍&quot; class=&quot;headerlink&quot; title=&quot;工具介绍&quot;&gt;&lt;/a&gt;工具介绍&lt;/h2&gt;&lt;p&gt;抽空用Java写了这个小工具，支持一键检测CVE-2020-10199、CVE-2020-10204漏洞，图形化界面，为确保
+      
+    
+    </summary>
+    
+      <category term="web安全" scheme="https://maimeng.me/categories/web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="安全工具" scheme="https://maimeng.me/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="漏洞复现" scheme="https://maimeng.me/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>mac下任务栏卡死的解决办法</title>

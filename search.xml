@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[【原创工具】CVE-2020-10199、CVE-2020-10204漏洞检测工具]]></title>
+    <url>%2F2020%2F04%2Fcve-2020-10199-10204%2F</url>
+    <content type="text"><![CDATA[工具介绍抽空用Java写了这个小工具，支持一键检测CVE-2020-10199、CVE-2020-10204漏洞，图形化界面，为确保检测稳定性，payload用到了随机数。（该工具仅限安全从业者在法律法规允许的范围内使用，违规使用后果自负。） 工具截图 工具使用 登录进入Nexus后台； 获取登录后的cookie及scrf属性； 打开本工具，填写nexus地址、cookie值、csrf值，点击检测即可。 工具下载下载地址：https://github.com/magicming200/CVE-2020-10199_CVE-2020-10204 运行环境：有java环境即可，JRE&gt;=1.6。 漏洞背景 Sonatype Nexus 是一个 Maven 的仓库管理系统，它提供了强大的仓库管理、构件搜索等功能，并且可以用来搭建 Maven 仓库私服，在代理远程仓库的同时维护本地仓库，以节省带宽和时间。在 Nexus Repository Manager OSS/Pro 3.21.1 及之前的版本中，经过授权认证的攻击者，可以通过 JavaEL 表达式注入造成远程代码执行，获取系统权限。 影响范围CVE-2020-10199：Nexus Repository Manager OSS/PRo &lt;=3.21.1，需有低权限账号。CVE-2020-10204：Nexus Repository Manager OSS/PRo &lt;=3.21.1，需有管理员账号。 漏洞修复 Nexus Repository Manager OSS/Pro升级到最新版。新版下载地址：https://help.sonatype.com/repomanager3/download]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>安全工具</tag>
+        <tag>漏洞复现</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mac下任务栏卡死的解决办法]]></title>
     <url>%2F2020%2F01%2Fmac-taskbar-crash%2F</url>
     <content type="text"><![CDATA[mac下任务栏偶尔会卡死，表现为wifi无响应，鼠标变为忙碌状态，解决办法如下： 1sudo kill -9 `ps aux | grep -v grep | grep /usr/libexec/airportd | awk '&#123;print $2&#125;'`]]></content>
